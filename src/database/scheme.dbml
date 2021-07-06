@@ -1,0 +1,74 @@
+// ========================================================================
+// Esquema do banco de dados do TP 1 de Qualidade de Software.
+// Para visualiza-lo acesse https://dbdiagram.io/d/60e103fe0b1d8a6d3965867f
+// ========================================================================
+
+Project tees {
+  database_type: 'PostgreSQL'
+  Note: 'Aplicativo para doações'
+}
+
+Enum UserType {
+  ADM
+  PF
+  PJ
+}
+
+Enum Validation {
+  APPROVED
+  DENIED
+  WAITING
+}
+
+Table users {
+  id_user integer [pk, increment]
+  name varchar(256) [not null]
+  email varchar(256) [not null, unique]
+  password varchar(256) [not null]
+  type UserType [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  deleted_at timestamp [null]
+}
+
+Table donation_items {
+  id_donation_item integer [pk, increment]
+  id_user integer [not null, ref: > users.id_user]
+  id_item_type integer [not null, ref: > item_types.id_item_type]
+  description varchar [not null]
+  quantity integer [not null]
+  state char(2) [not null]
+  city varchar [not null]
+  validation Validation [not null, default: `'WAITING'`]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  deleted_at timestamp [null]
+}
+
+Table item_types {
+  id_item_type integer [pk, increment]
+  name varchar(256) [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  deleted_at timestamp [null]
+}
+
+Table item_photos {
+  id_item_photo integer [pk, increment]
+  id_donation_item integer [not null, ref: > donation_items.id_donation_item]
+  link varchar [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  deleted_at timestamp [null]
+}
+
+Table solicitations {
+  id_solicitation integer [pk, increment]
+  id_user integer [not null, ref: > users.id_user]
+  id_donation_item integer [not null, ref: > donation_items.id_donation_item]
+  justification varchar [not null]
+  validation Validation [not null, default: `'WAITING'`]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp [not null, default: `now()`]
+  deleted_at timestamp [null]
+}
