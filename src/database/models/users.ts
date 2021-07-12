@@ -62,7 +62,7 @@ export function initUsers (sequelize: Sequelize) {
 		}
 	}, {
 		sequelize,
-		paranoid: false,
+		paranoid: true,
 		timestamps: true,
 		underscored: true,
 		modelName: "Users",

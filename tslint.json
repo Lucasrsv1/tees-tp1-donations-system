@@ -10,6 +10,7 @@
 		"object-literal-key-quotes": [true, "as-needed"],
 		"object-literal-sort-keys": false,
 		"ordered-imports": true,
+		"triple-equals": false,
 		"quotemark": [true, "double", "avoid-escape"],
 		"trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
 		"space-before-function-paren": {
@@ -57,6 +58,7 @@
 		"interface-name": true,
 		"no-console": false,
 		"no-empty": false,
+		"triple-equals": false,
 		"no-inferrable-types": [true, "ignore-params", "ignore-properties"],
 		"no-non-null-assertion": true,
 		"no-redundant-jsdoc": true,
