@@ -1,0 +1,39 @@
+:host {
+  background-color: blue;
+  display: flex;
+  height: 100%;
+}
+
+.container {
+  border-radius: 8px;
+  margin: auto;
+  background-color: aqua;
+  width: 40vw;
+  padding: 16px;
+}
+
+.inner {
+  display: flex;
+}
+
+.title {
+  font-size: 20px;
+  margin: 30px auto;
+  .login {
+    margin: auto;
+    width: fit-content;
+  }
+}
+
+form {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  height: 40px;
+  width: 100%;
+}

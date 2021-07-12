@@ -1,0 +1,31 @@
+<div class="container">
+
+  <div class="title">
+    <div class="login">Login</div>
+  </div>
+
+  <div class="inner">
+    <form [formGroup]="form">
+      <mat-form-field [floatLabel]="'always'" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email" placeholder="Digite seu email aqui"/>
+        <mat-error>Obrigatório</mat-error>
+      </mat-form-field>
+
+      <mat-form-field [floatLabel]="'always'" appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Digite sua senha"/>
+        <mat-error>Obrigatório</mat-error>
+      </mat-form-field>
+
+      <button mat-button type="submit" (click)="signUp()" [disabled]="form.invalid">
+        Login
+      </button>
+    </form>
+  </div>
+
+  <div class="title">
+    <div class="login"><a href="/cadastro">Não tem usuario? cadastre-se aqui!</a></div>
+  </div>
+
+</div>
