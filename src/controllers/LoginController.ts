@@ -4,7 +4,7 @@ import { sign, verify, VerifyErrors } from "jsonwebtoken";
 
 import db from "../database/models";
 import { Users } from "../database/models/users";
-import HttpValidation from "./httpValidation";
+import HttpValidation from "./HttpValidation";
 
 const KEY_TOKEN = "U7rLThGJD3BAZg0$d*%6DeKZdChEzPEz";
 const EXPIRATION_TIME = 3 * 24 * 60 * 60;
