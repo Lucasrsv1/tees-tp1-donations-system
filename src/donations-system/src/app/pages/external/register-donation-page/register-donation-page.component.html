@@ -1,55 +1,60 @@
-<div class="container">
+<div class="container" align="center">
+	<div class="card text-start">
+		<div class="card-header p-3 bg-primary text-white">
+			Preencha as informações do item a ser doado:
+		</div>
 
-  <div class="title">
-    <div class="login">Cadastro de doação</div>
-  </div>
+		<div class="card-body">
+			<form [formGroup]="form">
 
-  <div class="inner">
-    <form [formGroup]="form">
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Item</mat-label>
-        <input matInput type="text" formControlName="itemName" placeholder="Qual é o item a ser doado?" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Item</mat-label>
+					<input matInput type="text" formControlName="itemName" placeholder="Qual é o item a ser doado?" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Tipo do item</mat-label>
-        <input matInput type="text" formControlName="itemType" placeholder="Selecione o tipo do item a ser doado" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Tipo do item</mat-label>
+					<mat-select formControlName="itemType" placeholder="Selecione o tipo do item a ser doado">Tipo do
+						item</mat-select>
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Descrição</mat-label>
-        <input matInput type="text" formControlName="itemDesc" placeholder="Descreva o item a ser doado" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Descrição</mat-label>
+					<input matInput type="text" formControlName="itemDesc" placeholder="Descreva o item a ser doado" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Quantidade</mat-label>
-        <input matInput type="text" formControlName="itemQnt" placeholder="Informe a quantidade do item a ser doada" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Quantidade</mat-label>
+					<input matInput type="text" formControlName="itemQnt"
+						placeholder="Informe a quantidade do item a ser doada" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Foto</mat-label>
-        <input matInput type="text" formControlName="itemPhoto" placeholder="Anexe fotos do item a ser doado" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Foto</mat-label>
+					<input matInput type="text" formControlName="itemPhoto"
+						placeholder="Anexe fotos do item a ser doado" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <mat-form-field [floatLabel]="'always'" appearance="outline">
-        <mat-label>Localização</mat-label>
-        <input matInput type="text" formControlName="itemLoc" placeholder="Informe a cidade que o item será doado" />
-        <mat-error>Obrigatório</mat-error>
-      </mat-form-field>
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Localização</mat-label>
+					<input matInput type="text" formControlName="itemLoc"
+						placeholder="Informe a cidade que o item será doado" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
 
-      <button mat-button type="submit" (click)="create()" [disabled]="form.invalid">
-        Cadastrar doação
-      </button>
-    </form>
-  </div>
+				<button class="btn btn-primary mb-3" type="submit" (click)="create()" [disabled]="form.invalid">
+					Cadastrar Item
+				</button>
+			</form>
 
-  <div class="title">
-    <div class="login"><a href="/">CANCELAR</a></div>
-  </div>
-
+			<div class="text-center">
+				<a [routerLink]="['/home']">Cancelar</a>
+			</div>
+		</div>
+	</div>
 </div>

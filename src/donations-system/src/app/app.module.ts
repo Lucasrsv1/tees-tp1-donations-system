@@ -15,53 +15,22 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-<<<<<<< HEAD
-import { LoginPageComponent } from './pages/external/login-page/login-page.component';
-import { SignUpPageComponent } from './pages/external/sign-up-page/sign-up-page.component';
-import { ItemsTypeManagementPageComponent } from './pages/internal/items-type-management-page/items-type-management-page.component';
-import { HomePageComponent } from './pages/internal/home-page/home-page.component';
-import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component';
-=======
 import { LoginPageComponent } from "./pages/external/login-page/login-page.component";
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
 import { ItemsTypeManagementPageComponent } from "./pages/internal/items-type-management-page/items-type-management-page.component";
->>>>>>> 6c63d3931be14a45ca844d88afc2320c276f3b56
+import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component';
 
 import { RequestInterceptor } from "./services/authentication/request.interceptor";
 
 @NgModule({
-<<<<<<< HEAD
-  declarations: [
-    AppComponent,
-    LoginPageComponent,
-    SignUpPageComponent,
-    ItemsTypeManagementPageComponent,
-    HomePageComponent,
-    RegisterDonationComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    BrowserAnimationsModule
-  ],
-  providers: [
-    AuthenticationService
-  ],
-  bootstrap: [AppComponent]
-=======
 	declarations: [
 		AppComponent,
 		LoginPageComponent,
 		SignUpPageComponent,
 		ItemsTypeManagementPageComponent,
-		HomePageComponent
+		HomePageComponent,
+		RegisterDonationComponent
 	],
 	imports: [
 		BrowserModule,
@@ -81,6 +50,5 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
 	],
 	bootstrap: [AppComponent]
->>>>>>> 6c63d3931be14a45ca844d88afc2320c276f3b56
 })
 export class AppModule { }
