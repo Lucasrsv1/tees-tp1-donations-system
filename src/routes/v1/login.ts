@@ -7,6 +7,6 @@ const router = Router();
 
 router.post("/login", LoginController.loginValidations, LoginController.login);
 
-router.post("/signUp", UserController.createUser);
+router.post("/signUp", UserController.createUserValidations, UserController.createUser);
 
 export default router;

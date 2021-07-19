@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import { body, ValidationChain } from "express-validator";
+import { UniqueConstraintError } from "sequelize";
 
 import db from "../database/models";
-import { Users } from "../database/models/users";
+import { Users, UserType } from "../database/models/users";
 
 class UserController {
 	constructor () { }
@@ -37,8 +39,20 @@ class UserController {
 			delete newUserCreated.password;
 			return res.status(200).json(newUserCreated);
 		} catch (err) {
-			return res.status(500).json(err.message);
+			if (err instanceof UniqueConstraintError)
+				return res.status(400).json({ message: "Este e-mail já está cadastrado." });
+
+			res.status(500).json(err.message);
 		}
+	}
+
+	public static get createUserValidations (): ValidationChain[]  {
+		return [
+			body("name").isString().withMessage("Nome inválido."),
+			body("email").isEmail().withMessage("E-mail inválido.").normalizeEmail(),
+			body("password").isString().withMessage("Senha inválida."),
+			body("type").isIn([UserType.ADM, UserType.PF, UserType.PJ]).withMessage("Tipo de conta inválida.")
+		];
 	}
 
 	public static async updateUser (req: Request, res: Response) {

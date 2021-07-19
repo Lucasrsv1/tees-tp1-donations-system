@@ -1,4 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "~bootstrap/scss/bootstrap.scss";
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-app-primary: mat-palette($mat-blue);
+$my-app-accent: mat-palette($mat-yellow, 400);
+$my-app-warn: mat-palette($mat-deep-orange);
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+@include angular-material-theme($my-app-theme);
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	background-color: #F0F0F0;
+}
+
+/* BLOCK UI OVERRIDE STYLES */
+
+div.block-ui-wrapper {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+div.block-ui-wrapper .loader {
+	/* Circle color */
+	border-color: #FFF;
+
+	/* Spinning section in circle color */
+	border-left-color: #1E3AA1;
+}
+
+div.block-ui-spinner .message {
+	/* Loading text color */
+	color: #FFF;
+}

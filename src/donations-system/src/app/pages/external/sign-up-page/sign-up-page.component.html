@@ -1,1 +1,41 @@
-<p>sign-up-page works!</p>
+<div class="container" align="center">
+	<div class="card text-start">
+		<div class="card-header p-3 bg-primary text-white">
+			Cadastramento
+		</div>
+
+		<div class="card-body">
+			<form [formGroup]="form">
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Nome</mat-label>
+					<input matInput type="text" formControlName="name" placeholder="Digite seu nome aqui" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
+
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>E-mail</mat-label>
+					<input matInput type="text" formControlName="email" placeholder="Digite seu e-mail aqui" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
+
+				<mat-form-field [floatLabel]="'always'" appearance="outline">
+					<mat-label>Senha</mat-label>
+					<input matInput type="password" formControlName="password" placeholder="Digite sua senha" />
+					<mat-error>Obrigatório</mat-error>
+				</mat-form-field>
+
+				<mat-slide-toggle formControlName="pj" class="mb-3" color="primary">
+					Esta é uma conta PJ
+				</mat-slide-toggle>
+
+				<button class="btn btn-primary mb-3" type="submit" (click)="signUp()" [disabled]="form.invalid">
+					Cadastrar
+				</button>
+			</form>
+
+			<div class="text-center">
+				<a [routerLink]="['/login']">Já é cadastrado? Faça login aqui!</a>
+			</div>
+		</div>
+	</div>
+</div>
