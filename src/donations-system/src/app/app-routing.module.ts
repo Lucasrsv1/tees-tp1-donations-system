@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SignUpPageComponent } from './pages/external/sign-up-page/sign-up-page.component';
 import { LoginPageComponent } from './pages/external/login-page/login-page.component';
 import { HomePageComponent } from './pages/internal/home-page/home-page.component';
+import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component'
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'cadastro',
     component: SignUpPageComponent
+  },
+  {
+    path: 'cadastrar-doacao',
+    component: RegisterDonationComponent
   },
   {
     path: 'home',
