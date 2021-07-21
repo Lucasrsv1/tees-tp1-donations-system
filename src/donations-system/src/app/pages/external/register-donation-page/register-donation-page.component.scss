@@ -1,0 +1,21 @@
+:host {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	width: 100%;
+}
+
+.card {
+	max-width: 650px;
+
+	mat-form-field {
+		width: 100%;
+	}
+
+	button {
+		height: 40px;
+		width: 100%;
+	}
+}

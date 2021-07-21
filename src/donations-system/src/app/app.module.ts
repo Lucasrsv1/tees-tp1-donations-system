@@ -19,6 +19,7 @@ import { LoginPageComponent } from "./pages/external/login-page/login-page.compo
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
 import { ItemsTypeManagementPageComponent } from "./pages/internal/items-type-management-page/items-type-management-page.component";
+import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component';
 
 import { RequestInterceptor } from "./services/authentication/request.interceptor";
 
@@ -28,7 +29,8 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		LoginPageComponent,
 		SignUpPageComponent,
 		ItemsTypeManagementPageComponent,
-		HomePageComponent
+		HomePageComponent,
+		RegisterDonationComponent
 	],
 	imports: [
 		BrowserModule,

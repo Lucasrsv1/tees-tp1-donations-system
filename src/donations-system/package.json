@@ -27,12 +27,12 @@
     "ng-block-ui": "^3.0.2",
     "ngx-bootstrap": "^6.2.0",
     "rxjs": "~6.6.0",
-    "sweetalert2": "^11.0.18",
+    "sweetalert2": "^11.0.19",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.1.1",
+    "@angular-devkit/build-angular": "^12.1.2",
     "@angular/cli": "~12.1.1",
     "@angular/compiler-cli": "~12.1.1",
     "@types/jasmine": "~3.6.0",

@@ -7,6 +7,7 @@ import { LoginGuard } from "./guards/login/login.guard";
 import { LoginPageComponent } from "./pages/external/login-page/login-page.component";
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
+import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component'
 
 const routes: Routes = [
 	{
@@ -23,6 +24,10 @@ const routes: Routes = [
 		path: "home",
 		component: HomePageComponent,
 		canActivate: [AuthenticationGuard]
+	},
+	{
+		path: 'cadastrar-doacao',
+		component: RegisterDonationComponent
 	},
 	{
 		path: "**",
