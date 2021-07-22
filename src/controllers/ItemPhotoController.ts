@@ -13,7 +13,7 @@ class ItemPhotoController {
 	public static async getAllItemsPhotos (req: Request, res: Response) {
 		const { idDonationItem } = req.params
 		try {
-			const allItems = await db.DonationItems.findAll({
+			const allItems = await db.ItemPhotos.findAll({
 				attributes: ["idItemPhoto", "idDonationItem", "link"],
 				where: { idDonationItem: Number(idDonationItem) }
 			});
@@ -26,7 +26,7 @@ class ItemPhotoController {
 	public static async getItemPhotoById (req: Request, res: Response) {
 		const { idDonationItem, idItemPhoto } = req.params;
 		try {
-			const item = await db.DonationItems.findOne({
+			const item = await db.ItemPhotos.findOne({
 				attributes: ["idItemPhoto", "idDonationItem", "link"],
 				where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) }
 			});
@@ -40,7 +40,7 @@ class ItemPhotoController {
 		const { idUser, idDonationItem } = req.params;
 		const newItemPhoto = { ...req.body, idUser: Number(idUser), idDonationItem: Number(idDonationItem) };
 		try {
-			const newItemPhotoCreated = (await db.DonationItems.create(newItemPhoto)).toJSON() as Partial<ItemPhotos>;
+			const newItemPhotoCreated = (await db.ItemPhotos.create(newItemPhoto)).toJSON() as Partial<ItemPhotos>;
 			return res.status(200).json(newItemPhotoCreated);
 		} catch (err) {
 			if (err instanceof UniqueConstraintError)
@@ -62,7 +62,7 @@ class ItemPhotoController {
 		const newInfo = req.body;
 		try {
 			await db.ItemPhotos.update(newInfo, { where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) } });
-			const updatedUser = await db.DonationItems.findOne({
+			const updatedUser = await db.ItemPhotos.findOne({
 				attributes: ["idItemPhoto", "idDonationItem", "link"],
 				where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) }
 			});

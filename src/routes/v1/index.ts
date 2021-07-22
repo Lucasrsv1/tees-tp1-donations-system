@@ -3,7 +3,7 @@ import { Router } from "express";
 import loginRoute from "./login";
 import userRoute from "./users";
 import itemRoute from "./items";
-import itemPhotoRouter from "./itemPhotoTest";
+import itemPhotoRouter from "./itemPhoto";
 
 import LoginController from "../../controllers/LoginController";
 
