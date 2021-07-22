@@ -10,7 +10,8 @@ class ItemPhotoController {
 
 	constructor () {}
 
-	public static async getAllItemsPhotos (req: Request, res: Response) {
+	/* Mostra todas as fotos de um item */
+	public static async getAllItemPhotos (req: Request, res: Response) {
 		const { idDonationItem } = req.params
 		try {
 			const allItems = await db.ItemPhotos.findAll({
@@ -23,6 +24,7 @@ class ItemPhotoController {
 		}
 	}
 
+	/* Mostra uma foto especifica, a partir de seu id, de um item */
 	public static async getItemPhotoById (req: Request, res: Response) {
 		const { idDonationItem, idItemPhoto } = req.params;
 		try {
@@ -36,15 +38,16 @@ class ItemPhotoController {
 		}
 	}
 
+	/* Cria uma foto para um item */
 	public static async createItemPhoto (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params;
+		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
 		const newItemPhoto = { ...req.body, idUser: Number(idUser), idDonationItem: Number(idDonationItem) };
 		try {
 			const newItemPhotoCreated = (await db.ItemPhotos.create(newItemPhoto)).toJSON() as Partial<ItemPhotos>;
 			return res.status(200).json(newItemPhotoCreated);
 		} catch (err) {
 			if (err instanceof UniqueConstraintError)
-				return res.status(400).json({ message: "Esta foto ja foi utilizada." });
+				return res.status(400).json({ message: "Esta foto ja foi criada." });
 
 			res.status(500).json(err.message);
 		}
@@ -57,23 +60,25 @@ class ItemPhotoController {
 		];
 	}
 
+	/* Atualiza a foto de um item */
 	public static async updateItemPhoto (req: Request, res: Response) {
-		const { idDonationItem, idItemPhoto } = req.params;
+		const { idUser, idDonationItem, idItemPhoto } = req.params; // Fazer validacao de usuario
 		const newInfo = req.body;
 		try {
 			await db.ItemPhotos.update(newInfo, { where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) } });
-			const updatedUser = await db.ItemPhotos.findOne({
+			const updatedItemPhoto = await db.ItemPhotos.findOne({
 				attributes: ["idItemPhoto", "idDonationItem", "link"],
 				where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) }
 			});
-			return res.status(200).json(updatedUser);
+			return res.status(200).json(updatedItemPhoto);
 		} catch (err) {
 			return res.status(500).json(err.message);
 		}
 	}
 
+	/* Deleta uma foto de um item */
 	public static async deleteItemPhoto (req: Request, res: Response) {
-		const { idItemPhoto } = req.params;
+		const { idUser, idItemPhoto } = req.params; // Fazer validacao de usuario
 
 		/*
 		const authItemPhotos = res.locals.item as Partial<ItemPhotos>;

@@ -6,12 +6,12 @@ const router = Router();
 
 // ============= Geral ============= //
 
-router.get("/items/:idDonationItem/img", ItemPhotoController.getAllItemsPhotos);
+router.get("/items/:idDonationItem/img", ItemPhotoController.getAllItemPhotos);
 router.get("/items/:idDonationItem/img/:idItemPhoto", ItemPhotoController.getItemPhotoById);
 
 // ============= User ============= //
 
-router.get("/users/:idUser/item/:idDonationItem/img", ItemPhotoController.getAllItemsPhotos);
+router.get("/users/:idUser/item/:idDonationItem/img", ItemPhotoController.getAllItemPhotos);
 router.get("/users/:idUser/item/:idDonationItem/img/:idItemPhoto", ItemPhotoController.getItemPhotoById);
 
 router.post("/users/:idUser/item/:idDonationItem/img/addPhoto", ItemPhotoController.createItemPhoto);

@@ -11,6 +11,7 @@ class DonationItemController {
 
 	constructor () { }
 
+	/* Mostra todas os itens do sistema */
 	public static async getAllItems (req: Request, res: Response) {
 		try {
 			const allItems = await db.DonationItems.findAll({
@@ -22,8 +23,9 @@ class DonationItemController {
 		}
 	}
 
+	/* Mostra todos os itens de um usuario */
 	public static async getAllItemsOfUser (req: Request, res: Response) {
-		const { idUser } = req.params;
+		const { idUser } = req.params; // Fazer validacao de usuario
 		try {
 			const allItems = await db.DonationItems.findAll({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
@@ -35,8 +37,9 @@ class DonationItemController {
 		}
 	}
 
+	/* Mostra um item de um usuario */
 	public static async getItemOfUserById (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params;
+		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
 		try {
 			const item = await db.DonationItems.findOne({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
@@ -48,8 +51,9 @@ class DonationItemController {
 		}
 	}
 
+	/* Cria um novo item */
 	public static async createDonationItem (req: Request, res: Response) {
-		const { idUser } = req.params;
+		const { idUser } = req.params; // Fazer validacao de usuario
 		const newDonationItem = { ...req.body, idUser: Number(idUser) };
 		try {
 			const newDonationItemCreated = (await db.DonationItems.create(newDonationItem)).toJSON() as Partial<DonationItems>;
@@ -62,7 +66,7 @@ class DonationItemController {
 		}
 	}
 
-	public static get createUserValidations (): ValidationChain[]  {
+	public static get createDonationItemValidations (): ValidationChain[]  {
 		return [
 			body("idUser").isIn([Users]).withMessage("Usuario invalido."),
 			body("idItemType").isIn([ItemTypes]).withMessage("Tipo de item invalido."),
@@ -73,23 +77,25 @@ class DonationItemController {
 		];
 	}
 
+	/* Atualiza informacoes de um item */
 	public static async updateDonationItem (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params;
+		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
 		const newInfo = req.body;
 		try {
 			await db.DonationItems.update(newInfo, { where: { idUser: Number(idUser), idDonationItem: Number(idDonationItem) } });
-			const updatedUser = await db.DonationItems.findOne({
+			const updatedDonationItem = await db.DonationItems.findOne({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
 				where: { idUser: Number(idUser), idDonationItem: Number(idDonationItem) }
 			});
-			return res.status(200).json(updatedUser);
+			return res.status(200).json(updatedDonationItem);
 		} catch (err) {
 			return res.status(500).json(err.message);
 		}
 	}
 
+	/* Deleta um item */
 	public static async deleteDonationItem (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params;
+		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
 
 		/*
 		const authDonationItem = res.locals.item as Partial<DonationItems>;

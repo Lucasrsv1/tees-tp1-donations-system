@@ -8,6 +8,7 @@ import { Users, UserType } from "../database/models/users";
 class UserController {
 	constructor () { }
 
+	/* Mostra todos os usuarios do sistema */
 	public static async getAllUsers (req: Request, res: Response) {
 		try {
 			const allUsers = await db.Users.findAll({
@@ -19,6 +20,7 @@ class UserController {
 		}
 	}
 
+	/* Mostra um usuario a partir de seu id */
 	public static async getOneUserById (req: Request, res: Response) {
 		const { idUser } = req.params;
 		try {
@@ -32,6 +34,7 @@ class UserController {
 		}
 	}
 
+	/* Cria usuario */
 	public static async createUser (req: Request, res: Response) {
 		const newUser = req.body;
 		try {
@@ -55,6 +58,7 @@ class UserController {
 		];
 	}
 
+	/* Atualiza informacao do usuario */
 	public static async updateUser (req: Request, res: Response) {
 		const { idUser } = req.params;
 		const newInfo = req.body;
@@ -70,6 +74,7 @@ class UserController {
 		}
 	}
 
+	/* Deleta usuario */
 	public static async deleteUser (req: Request, res: Response) {
 		const { idUser } = req.params;
 
