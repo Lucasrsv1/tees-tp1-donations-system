@@ -6,7 +6,6 @@ import db from "../database/models";
 import { ItemTypes } from "../database/models/item_types";
 
 class ItemTypeController {
-
 	constructor () { }
 
 	/* Mostra todos os tipos de itens */
@@ -51,7 +50,7 @@ class ItemTypeController {
 
 	public static get createUserValidations (): ValidationChain[]  {
 		return [
-			body("name").isString().withMessage("Nome inválido."),
+			body("name").isString().withMessage("Nome inválido.")
 		];
 	}
 
@@ -73,7 +72,7 @@ class ItemTypeController {
 
 	/* Deletar um tipo de item */
 	public static async deleteItemType (req: Request, res: Response) {
-		const { idItemType } = req.params; // Fazer validacao de usuario
+		const { idItemType } = req.params; // Fazer validação de usuário
 
 		/*
 		const authDonationItem = res.locals.item as Partial<DonationItems>;

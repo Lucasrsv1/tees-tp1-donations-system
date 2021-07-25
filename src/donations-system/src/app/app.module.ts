@@ -2,6 +2,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 import { BlockUIModule } from "ng-block-ui";
@@ -14,13 +15,16 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { ComponentsModule } from "./components/components.module";
 
 import { LoginPageComponent } from "./pages/external/login-page/login-page.component";
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
 import { ItemsTypeManagementPageComponent } from "./pages/internal/items-type-management-page/items-type-management-page.component";
-import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component';
+import { RegisterDonationComponent } from "./pages/internal/register-donation-page/register-donation-page.component";
 
+import { DonationsManagementPageComponent } from "./pages/internal/donations-management-page/donations-management-page.component";
+import { DonationsValidationPageComponent } from "./pages/internal/donations-validation-page/donations-validation-page.component";
 import { RequestInterceptor } from "./services/authentication/request.interceptor";
 
 @NgModule({
@@ -30,11 +34,12 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		SignUpPageComponent,
 		ItemsTypeManagementPageComponent,
 		HomePageComponent,
-		RegisterDonationComponent
+		RegisterDonationComponent,
+		DonationsValidationPageComponent,
+		DonationsManagementPageComponent
 	],
 	imports: [
 		BrowserModule,
-		AppRoutingModule,
 		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,
@@ -43,8 +48,12 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		MatSelectModule,
 		MatSlideToggleModule,
 		BrowserAnimationsModule,
+		FontAwesomeModule,
 		BlockUIModule.forRoot(),
-		SweetAlert2Module.forRoot()
+		SweetAlert2Module.forRoot(),
+		AppRoutingModule,
+		ComponentsModule,
+		FontAwesomeModule
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }

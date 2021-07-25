@@ -6,7 +6,7 @@ import Swal, { SweetAlertIcon } from "sweetalert2";
 export class AlertsService {
 	constructor () { }
 
-	show (title: string, html: string, icon: SweetAlertIcon = "info") {
+	public show (title: string, html: string, icon: SweetAlertIcon = "info"): void {
 		Swal.fire({
 			icon,
 			buttonsStyling: false,
@@ -16,7 +16,7 @@ export class AlertsService {
 		});
 	}
 
-	httpErrorAlert (title: string, html: string, error: HttpErrorResponse) {
+	public httpErrorAlert (title: string, html: string, error: HttpErrorResponse): void {
 		let errorMessage = error.message;
 		if (error.error && error.error.message)
 			errorMessage = error.error.message;

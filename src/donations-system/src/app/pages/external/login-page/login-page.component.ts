@@ -28,7 +28,7 @@ export class LoginPageComponent {
 		});
 	}
 
-	login (): void {
+	public login (): void {
 		const password = sha512(this.form.controls.password.value);
 
 		this.blockUI.start();

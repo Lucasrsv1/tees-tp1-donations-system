@@ -8,7 +8,6 @@ import { ItemTypes } from "../database/models/item_types";
 import { Users } from "../database/models/users";
 
 class DonationItemController {
-
 	constructor () { }
 
 	/* Mostra todas os itens do sistema */
@@ -23,9 +22,9 @@ class DonationItemController {
 		}
 	}
 
-	/* Mostra todos os itens de um usuario */
+	/* Mostra todos os itens de um usuário */
 	public static async getAllItemsOfUser (req: Request, res: Response) {
-		const { idUser } = req.params; // Fazer validacao de usuario
+		const { idUser } = req.params; // Fazer validação de usuário
 		try {
 			const allItems = await db.DonationItems.findAll({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
@@ -37,9 +36,9 @@ class DonationItemController {
 		}
 	}
 
-	/* Mostra um item de um usuario */
+	/* Mostra um item de um usuário */
 	public static async getItemOfUserById (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
+		const { idUser, idDonationItem } = req.params; // Fazer validação de usuário
 		try {
 			const item = await db.DonationItems.findOne({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
@@ -53,7 +52,7 @@ class DonationItemController {
 
 	/* Cria um novo item */
 	public static async createDonationItem (req: Request, res: Response) {
-		const { idUser } = req.params; // Fazer validacao de usuario
+		const { idUser } = req.params; // Fazer validação de usuário
 		const newDonationItem = { ...req.body, idUser: Number(idUser) };
 		try {
 			const newDonationItemCreated = (await db.DonationItems.create(newDonationItem)).toJSON() as Partial<DonationItems>;
@@ -68,18 +67,18 @@ class DonationItemController {
 
 	public static get createDonationItemValidations (): ValidationChain[]  {
 		return [
-			body("idUser").isIn([Users]).withMessage("Usuario invalido."),
+			body("idUser").isIn([Users]).withMessage("Usuário invalido."),
 			body("idItemType").isIn([ItemTypes]).withMessage("Tipo de item invalido."),
-			body("description").isString().withMessage("Descricao inválida."),
+			body("description").isString().withMessage("Descrição inválida."),
 			body("quantity").isString().withMessage("Quantidade invalida."),
 			body("state").isString().withMessage("Estado invalida."),
 			body("city").isString().withMessage("Cidade invalida.")
 		];
 	}
 
-	/* Atualiza informacoes de um item */
+	/* Atualiza informações de um item */
 	public static async updateDonationItem (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
+		const { idUser, idDonationItem } = req.params; // Fazer validação de usuário
 		const newInfo = req.body;
 		try {
 			await db.DonationItems.update(newInfo, { where: { idUser: Number(idUser), idDonationItem: Number(idDonationItem) } });
@@ -95,7 +94,7 @@ class DonationItemController {
 
 	/* Deleta um item */
 	public static async deleteDonationItem (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
+		const { idUser, idDonationItem } = req.params; // Fazer validação de usuário
 
 		/*
 		const authDonationItem = res.locals.item as Partial<DonationItems>;

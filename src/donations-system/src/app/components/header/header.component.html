@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<div class="container-fluid">
+		<a class="navbar-brand" [routerLink]="['/home']">Sistema de Doações</a>
+
+		<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<li class="nav-item">
+				<a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/home']">Doações</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/donationsManagement']">Minhas Doações</a>
+			</li>
+			<li class="nav-item" *ngIf="isSystemAdmin">
+				<a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/donationsValidation']">Validar Doações</a>
+			</li>
+			<li class="nav-item" *ngIf="isSystemAdmin">
+				<a class="nav-link" [routerLinkActive]="'active'" [routerLink]="['/itemTypesManagement']">Tipos de Itens</a>
+			</li>
+		</ul>
+
+		<ul class="navbar-nav mb-2 mb-lg-0">
+			<li class="nav-item">
+				<a class="nav-link link-light" href="#" (click)="logout()">
+					<fa-icon [icon]="faSignOutAlt"></fa-icon> Sair
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>

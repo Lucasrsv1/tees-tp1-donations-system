@@ -29,7 +29,7 @@ export class SignUpPageComponent {
 		});
 	}
 
-	signUp (): void {
+	public signUp (): void {
 		const user: IUser = {
 			name: this.form.controls.name.value,
 			email: this.form.controls.email.value,

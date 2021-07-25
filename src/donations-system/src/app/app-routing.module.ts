@@ -6,33 +6,19 @@ import { LoginGuard } from "./guards/login/login.guard";
 
 import { LoginPageComponent } from "./pages/external/login-page/login-page.component";
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
+import { DonationsManagementPageComponent } from "./pages/internal/donations-management-page/donations-management-page.component";
+import { DonationsValidationPageComponent } from "./pages/internal/donations-validation-page/donations-validation-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
-import { RegisterDonationComponent } from './pages/external/register-donation-page/register-donation-page.component'
+import { ItemsTypeManagementPageComponent } from "./pages/internal/items-type-management-page/items-type-management-page.component";
 
 const routes: Routes = [
-	{
-		path: "login",
-		component: LoginPageComponent,
-		canActivate: [LoginGuard]
-	},
-	{
-		path: "signUp",
-		component: SignUpPageComponent,
-		canActivate: [LoginGuard]
-	},
-	{
-		path: "home",
-		component: HomePageComponent,
-		canActivate: [AuthenticationGuard]
-	},
-	{
-		path: 'cadastrar-doacao',
-		component: RegisterDonationComponent
-	},
-	{
-		path: "**",
-		redirectTo: "login"
-	}
+	{ path: "login", component: LoginPageComponent, canActivate: [LoginGuard] },
+	{ path: "signUp", component: SignUpPageComponent, canActivate: [LoginGuard] },
+	{ path: "home", component: HomePageComponent, canActivate: [AuthenticationGuard] },
+	{ path: "itemTypesManagement", component: ItemsTypeManagementPageComponent },
+	{ path: "donationsManagement", component: DonationsManagementPageComponent },
+	{ path: "donationsValidation", component: DonationsValidationPageComponent },
+	{ path: "**", redirectTo: "login" }
 ];
 
 @NgModule({

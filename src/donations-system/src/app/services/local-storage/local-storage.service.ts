@@ -18,11 +18,11 @@ export class LocalStorageService {
 		return window.localStorage.getItem(APP_KEY_PREFIX + key) || defaultValue;
 	}
 
-	public set (key: LocalStorageKey, value: string) {
+	public set (key: LocalStorageKey, value: string): void {
 		window.localStorage.setItem(APP_KEY_PREFIX + key, value);
 	}
 
-	public delete (key: LocalStorageKey) {
+	public delete (key: LocalStorageKey): void {
 		window.localStorage.removeItem(APP_KEY_PREFIX + key);
 	}
 }

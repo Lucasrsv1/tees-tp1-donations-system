@@ -1,2 +1,6 @@
 dist
 node_modules
+
+src/uploads/*
+!src/uploads/20210724224930358.png
+!src/uploads/20210724225154876.jpg

@@ -7,12 +7,11 @@ import { DonationItems } from "../database/models/donation_items";
 import { ItemPhotos } from "../database/models/item_photos";
 
 class ItemPhotoController {
-
-	constructor () {}
+	constructor () { }
 
 	/* Mostra todas as fotos de um item */
 	public static async getAllItemPhotos (req: Request, res: Response) {
-		const { idDonationItem } = req.params
+		const { idDonationItem } = req.params;
 		try {
 			const allItems = await db.ItemPhotos.findAll({
 				attributes: ["idItemPhoto", "idDonationItem", "link"],
@@ -40,7 +39,7 @@ class ItemPhotoController {
 
 	/* Cria uma foto para um item */
 	public static async createItemPhoto (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params; // Fazer validacao de usuario
+		const { idUser, idDonationItem } = req.params; // Fazer validação de usuário
 		const newItemPhoto = { ...req.body, idUser: Number(idUser), idDonationItem: Number(idDonationItem) };
 		try {
 			const newItemPhotoCreated = (await db.ItemPhotos.create(newItemPhoto)).toJSON() as Partial<ItemPhotos>;
@@ -62,7 +61,7 @@ class ItemPhotoController {
 
 	/* Atualiza a foto de um item */
 	public static async updateItemPhoto (req: Request, res: Response) {
-		const { idUser, idDonationItem, idItemPhoto } = req.params; // Fazer validacao de usuario
+		const { idUser, idDonationItem, idItemPhoto } = req.params; // Fazer validação de usuário
 		const newInfo = req.body;
 		try {
 			await db.ItemPhotos.update(newInfo, { where: { idDonationItem: Number(idDonationItem), idItemPhoto: Number(idItemPhoto) } });
@@ -78,7 +77,7 @@ class ItemPhotoController {
 
 	/* Deleta uma foto de um item */
 	public static async deleteItemPhoto (req: Request, res: Response) {
-		const { idUser, idItemPhoto } = req.params; // Fazer validacao de usuario
+		const { idUser, idItemPhoto } = req.params; // Fazer validação de usuário
 
 		/*
 		const authItemPhotos = res.locals.item as Partial<ItemPhotos>;

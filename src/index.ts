@@ -8,14 +8,16 @@ consoleStamp(console, { pattern: "yyyy-mm-dd HH:MM:ss.l" });
 
 import cors from "cors";
 import express from "express";
+import { resolve } from "path";
 
 import routes from "./routes/routes";
 
 const port = process.env.PORT || 3200;
 const app = express();
 
-app.use(express.json());
+app.use("/uploads", express.static(resolve(__dirname, "./uploads")));
 
+app.use(express.json());
 app.use(cors({
 	origin: "*",
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

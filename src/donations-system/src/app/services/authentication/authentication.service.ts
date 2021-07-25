@@ -6,7 +6,7 @@ import { tap } from "rxjs/operators";
 
 import jwtDecode from "jwt-decode";
 
-import { IUser } from "src/app/interfaces/user";
+import { IUser, UserType } from "src/app/interfaces/user";
 import { environment } from "src/environments/environment";
 import { AlertsService } from "../alerts/alerts.service";
 import { LocalStorageKey, LocalStorageService } from "../local-storage/local-storage.service";
@@ -20,8 +20,8 @@ export class AuthenticationService {
 		private readonly localStorage: LocalStorageService
 	) { }
 
-	signUp (user: IUser): Observable<{ token: string }> {
-		return this.http.post<{ token: string }>(environment.apiURL + "/v1/signUp", user).pipe(
+	public signUp (user: IUser): Observable<IUser> {
+		return this.http.post<IUser>(environment.apiURL + "/v1/signUp", user).pipe(
 			tap(_ => {
 				this.alertsService.show("Cadastro Realizado", "O novo usuário foi cadastrado com sucesso.<br/>Você já pode fazer login com ele.", "success");
 				this.router.navigate(["login"]);
@@ -35,7 +35,7 @@ export class AuthenticationService {
 		);
 	}
 
-	login (email: string, password: string): Observable<{ token: string }> {
+	public login (email: string, password: string): Observable<{ token: string }> {
 		return this.http.post<{ token: string }>(
 			environment.apiURL + "/v1/login",
 			{ email, password }
@@ -53,17 +53,24 @@ export class AuthenticationService {
 		);
 	}
 
-	signOut (): void {
+	public signOut (): void {
 		this.localStorage.delete(LocalStorageKey.USER);
 		this.router.navigate(["login"]);
 	}
 
-	isLoggedIn (): boolean {
+	public isSystemAdmin (): boolean {
+		if (!this.isLoggedIn()) return false;
+
+		const user = this.getLoggedUser();
+		return user?.type === UserType.ADM;
+	}
+
+	public isLoggedIn (): boolean {
 		const user = this.getLoggedUser();
 		return Boolean(user && user.idUser && user.idUser > 0);
 	}
 
-	getLoggedUser (): IUser | null {
+	public getLoggedUser (): IUser | null {
 		const token = this.localStorage.get(LocalStorageKey.USER);
 		try {
 			return (token ? jwtDecode(token) : null) as IUser;
