@@ -120,7 +120,6 @@ export class ItemsTypeManagementPageComponent implements OnInit {
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
 				_ => {
-					this.blockUI.stop();
 					this.modalRef?.hide();
 					this.listItemTypes();
 					this.alertsService.show(
@@ -147,7 +146,6 @@ export class ItemsTypeManagementPageComponent implements OnInit {
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
 				_ => {
-					this.blockUI.stop();
 					this.modalRef?.hide();
 					this.listItemTypes();
 					this.alertsService.show(
@@ -178,7 +176,6 @@ export class ItemsTypeManagementPageComponent implements OnInit {
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
 				_ => {
-					this.blockUI.stop();
 					this.listItemTypes();
 					this.alertsService.show(
 						"Tipo de Item Removido",

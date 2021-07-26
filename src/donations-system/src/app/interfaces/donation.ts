@@ -4,7 +4,7 @@ import { Validation } from "./solicitation";
 import { IUser } from "./user";
 
 export interface IDonation {
-	idDonation: number;
+	idDonationItem: number;
 	idUser: number;
 	idItemType: number;
 	description: string;

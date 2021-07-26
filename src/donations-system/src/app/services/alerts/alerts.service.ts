@@ -16,13 +16,13 @@ export class AlertsService {
 		});
 	}
 
-	public confirm (text: string): Promise<boolean> {
+	public confirm (text: string, danger: boolean = true): Promise<boolean> {
 		return new Promise(resolve => {
 			Swal.fire({
 				icon: "question",
 				title: "Confirmação",
 				text,
-				confirmButtonColor: "#DC3545",
+				confirmButtonColor: danger ? "#DC3545" : "#198754",
 				confirmButtonText: "SIM",
 				showCancelButton: true,
 				cancelButtonText: "Cancelar"

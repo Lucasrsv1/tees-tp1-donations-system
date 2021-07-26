@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { finalize } from "rxjs/operators";
 
@@ -17,6 +18,8 @@ export class DonationsValidationPageComponent implements OnInit {
 	@BlockUI()
 	private blockUI!: NgBlockUI;
 
+	public faCheck = faCheck;
+	public faTimes = faTimes;
 	public donations: IDonation[] = [];
 
 	constructor (
@@ -44,15 +47,17 @@ export class DonationsValidationPageComponent implements OnInit {
 			);
 	}
 
-	public async validate (idDonation: number, result: Validation): Promise<void> {
-		const confirm = await this.alertsService.confirm(`Tem certeza de que deseja ${result === Validation.APPROVED ? "aprovar" : "reprovar"} esta doação?`);
+	public async validate (donation: IDonation, approved: boolean): Promise<void> {
+		// TODO: solicitar justificativa para reprovar.
+
+		const confirm = await this.alertsService.confirm(`Tem certeza de que deseja ${approved ? "aprovar" : "reprovar"} esta doação?`, !approved);
 		if (!confirm) return;
 
 		this.blockUI.start();
-		this.donationsManagementService.setValidation(idDonation, result)
+		this.donationsManagementService.setValidation(donation.idDonationItem, approved ? Validation.APPROVED : Validation.DENIED)
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
-				_ => this.donations = this.donations.filter(d => d.idDonation !== idDonation),
+				_ => this.donations = this.donations.filter(d => d.idDonationItem !== donation.idDonationItem),
 				(error: HttpErrorResponse) => {
 					this.alertsService.httpErrorAlert(
 						"Erro ao Validar Doação",

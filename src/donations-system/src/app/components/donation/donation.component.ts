@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import { IDonation } from "src/app/interfaces/donation";
+import { environment } from "src/environments/environment";
 
 @Component({
 	selector: "app-donation",
@@ -11,12 +12,9 @@ export class DonationComponent {
 	@Input()
 	public donation!: IDonation;
 
-	@Output()
-	public solicit = new EventEmitter<number>();
-
 	constructor () { }
 
-	public solicitDonation (): void {
-		this.solicit.emit(this.donation.idDonation);
+	public getPhotoURL (link: string): string {
+		return `${environment.serverURL}/uploads/${link}`;
 	}
 }

@@ -1,1 +1,16 @@
-<p>donations-validation-page works!</p>
+<div class="container mt-3 pb-3">
+	<div class="alert alert-primary text-center" role="alert" *ngIf="donations && donations.length === 0">
+		<div class="fs-4">
+			Nenhuma doação a ser validada.
+		</div>
+	</div>
+
+	<app-donation *ngFor="let donation of donations" [donation]="donation">
+		<button class="btn btn-success btn-lg me-2" (click)="validate(donation, true)">
+			<fa-icon [icon]="faCheck" class="me-1"></fa-icon> Aprovar
+		</button>
+		<button class="btn btn-danger btn-lg" (click)="validate(donation, false)">
+			<fa-icon [icon]="faTimes" class="me-1"></fa-icon> Reprovar
+		</button>
+	</app-donation>
+</div>
