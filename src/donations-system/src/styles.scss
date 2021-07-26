@@ -22,21 +22,83 @@ body {
 	background-color: #F0F0F0;
 }
 
-/* BLOCK UI OVERRIDE STYLES */
+/* === Block UI === */
 
 div.block-ui-wrapper {
 	background-color: rgba(0, 0, 0, 0.5);
-}
 
-div.block-ui-wrapper .loader {
-	/* Circle color */
-	border-color: #FFF;
-
-	/* Spinning section in circle color */
-	border-left-color: #1E3AA1;
+	.loader {
+		border-color: #FFF;
+		border-left-color: #1E3AA1;
+	}
 }
 
 div.block-ui-spinner .message {
-	/* Loading text color */
 	color: #FFF;
+}
+
+/* === Data Tables === */
+
+.dataTables_filter input, .dataTables_length select {
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+}
+
+table.dataTable {
+	padding-top: .75rem;
+
+	td, th {
+		border-color: #dee2e6;
+	}
+
+	tr:first-child th {
+		border-top: 1px solid #dee2e6;
+	}
+
+	&.table-bordered thead th,
+	&.table-bordered thead td,
+	&.table-bordered.no-footer {
+		border-bottom: 1px solid #dee2e6;
+	}
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+	background-color: white;
+}
+
+.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th, .table-striped>thead>tr {
+	background-color: rgba(0, 0, 0, .05);
+}
+
+.dataTables_wrapper div.dataTables_paginate .paginate_button:hover {
+	color: white !important;
+	border: 1px solid #0d6efd;
+	background-color: #0d6efd;
+	background: linear-gradient(to bottom, #0d6efd 0%, #0d6efd 100%);
+}
+
+.actions {
+	min-width: 100px;
+	width: 100px;
+}
+
+/* === Multiselect === */
+
+.multiselect-dropdown {
+	.selected-item {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: calc(100% - 60px);
+		overflow: hidden;
+		margin-top: 3px;
+	}
+
+	.dropdown-btn {
+		font-size: 1rem;
+	}
 }

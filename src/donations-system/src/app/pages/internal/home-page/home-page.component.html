@@ -1,1 +1,40 @@
-<p>home-page works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="d-inline-block m-0">Pesquisar Itens em Doação</h4>
+		</div>
+
+		<div class="card-body">
+			<form [formGroup]="form" class="form" (submit)="search()">
+				<div class="row mb-2">
+					<div class="col-12 col-sm-6">
+						<div class="form-group mb-0">
+							<label for="search" class="mb-1">Descrição:</label>
+							<input formControlName="search" type="text" class="form-control" id="search" placeholder="Pesquisar doações" autofocus>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6">
+						<div class="form-group mb-0">
+							<label for="types" class="mb-1">Tipos de Item:</label>
+							<ng-multiselect-dropdown
+								name="itemTypes"
+								[placeholder]="'Filtrar tipos de Item'"
+								[data]="itemTypes"
+								formControlName="types"
+								[settings]="dropdownSettings">
+							</ng-multiselect-dropdown>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 text-end">
+						<button type="submit" class="btn btn-primary">
+							<fa-icon [icon]="faSearch" class="me-1"></fa-icon>
+							Pesquisar
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

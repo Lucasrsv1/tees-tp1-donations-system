@@ -21,12 +21,12 @@ export class HomeService {
 			.append("search", filters.search)
 			.append("itemTypes", filters.itemTypes.map(it => it.idItemType).join(","));
 
-		return this.http.get<IDonation[]>(environment.apiURL + "/donations", { params });
+		return this.http.get<IDonation[]>(`${environment.apiURL}/donations`, { params });
 	}
 
 	private listLatestDonations (): Observable<IDonation[]> {
 		const params = this.lastDate ? new HttpParams().append("search", this.lastDate.valueOf()) : undefined;
-		return this.http.get<IDonation[]>(environment.apiURL + "/donations", { params }).pipe(
+		return this.http.get<IDonation[]>(`${environment.apiURL}/donations`, { params }).pipe(
 			tap(donations => {
 				this.lastDate = donations.reduce((max: Date, donation: IDonation) => {
 					return max && max > donation.createdAt ? max : donation.createdAt;
@@ -36,6 +36,6 @@ export class HomeService {
 	}
 
 	public solicitDonation (idDonation: number): Observable<boolean> {
-		return this.http.post<boolean>(environment.apiURL + "/donations", { idDonation });
+		return this.http.post<boolean>(`${environment.apiURL}/donations`, { idDonation });
 	}
 }

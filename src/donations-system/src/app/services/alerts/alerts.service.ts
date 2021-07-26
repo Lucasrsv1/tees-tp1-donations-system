@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import Swal, { SweetAlertIcon, SweetAlertResult } from "sweetalert2";
 
 @Injectable({ providedIn: "root" })
 export class AlertsService {
@@ -13,6 +13,22 @@ export class AlertsService {
 			customClass: { confirmButton: "btn btn-primary btn-lg" },
 			title,
 			html
+		});
+	}
+
+	public confirm (text: string): Promise<boolean> {
+		return new Promise(resolve => {
+			Swal.fire({
+				icon: "question",
+				title: "Confirmação",
+				text,
+				confirmButtonColor: "#DC3545",
+				confirmButtonText: "SIM",
+				showCancelButton: true,
+				cancelButtonText: "Cancelar"
+			}).then((result: SweetAlertResult) => {
+				resolve(Boolean(result.value));
+			});
 		});
 	}
 

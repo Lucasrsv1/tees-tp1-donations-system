@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 import { DonationComponent } from "./donation/donation.component";
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from "./header/header.component";
 
 @NgModule({
 	declarations: [DonationComponent, HeaderComponent],

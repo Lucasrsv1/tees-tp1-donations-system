@@ -21,7 +21,7 @@ export class AuthenticationService {
 	) { }
 
 	public signUp (user: IUser): Observable<IUser> {
-		return this.http.post<IUser>(environment.apiURL + "/v1/signUp", user).pipe(
+		return this.http.post<IUser>(`${environment.apiURL}/v1/signUp`, user).pipe(
 			tap(_ => {
 				this.alertsService.show("Cadastro Realizado", "O novo usuário foi cadastrado com sucesso.<br/>Você já pode fazer login com ele.", "success");
 				this.router.navigate(["login"]);
@@ -37,7 +37,7 @@ export class AuthenticationService {
 
 	public login (email: string, password: string): Observable<{ token: string }> {
 		return this.http.post<{ token: string }>(
-			environment.apiURL + "/v1/login",
+			`${environment.apiURL}/v1/login`,
 			{ email, password }
 		).pipe(
 			tap(response => {

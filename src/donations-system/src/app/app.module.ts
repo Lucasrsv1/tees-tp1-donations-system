@@ -2,17 +2,20 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
-
+import { DataTablesModule } from "angular-datatables";
 import { BlockUIModule } from "ng-block-ui";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { ComponentsModule } from "./components/components.module";
@@ -49,8 +52,11 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		MatSlideToggleModule,
 		BrowserAnimationsModule,
 		FontAwesomeModule,
+		ModalModule.forRoot(),
 		BlockUIModule.forRoot(),
 		SweetAlert2Module.forRoot(),
+		NgMultiSelectDropDownModule.forRoot(),
+		DataTablesModule,
 		AppRoutingModule,
 		ComponentsModule,
 		FontAwesomeModule

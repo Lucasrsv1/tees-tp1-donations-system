@@ -3,7 +3,7 @@ import { body, ValidationChain } from "express-validator";
 import { sign, verify, VerifyErrors } from "jsonwebtoken";
 
 import db from "../database/models";
-import { Users } from "../database/models/users";
+import { Users, UserType } from "../database/models/users";
 import HttpValidation from "./HttpValidation";
 
 const KEY_TOKEN = "U7rLThGJD3BAZg0$d*%6DeKZdChEzPEz";
@@ -34,6 +34,18 @@ class LoginController {
 		});
 	}
 
+	public static ensureAdministrator (req: Request, res: Response, next: NextFunction): void {
+		const user = res.locals.user as Partial<Users>;
+		if (user.type !== UserType.ADM) {
+			res.status(403).json({
+				message: "Acesso não autorizado. Você não é administrador."
+			});
+			return res.end();
+		}
+
+		next(null);
+	}
+
 	public static async login (req: Request, res: Response): Promise<void | any> {
 		if (HttpValidation.isRequestInvalid(req, res)) return;
 
@@ -53,7 +65,7 @@ class LoginController {
 			const token = sign(plainUser, KEY_TOKEN, { expiresIn: EXPIRATION_TIME });
 			res.status(200).json({ token });
 		} catch (error) {
-			console.error("LoginError:", error);
+			console.error(error);
 			res.status(500).json({ message: "Erro ao fazer login.", error });
 		}
 	}

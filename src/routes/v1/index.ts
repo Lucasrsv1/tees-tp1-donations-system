@@ -1,9 +1,8 @@
 import { Router } from "express";
 
-import loginRoute from "./login";
-import userRoute from "./users";
-import itemRoute from "./items";
-import itemPhotoRouter from "./itemPhoto";
+import donationsRouter from "./donations";
+import itemTypesRouter from "./itemsTypes";
+import loginRouter from "./login";
 
 import LoginController from "../../controllers/LoginController";
 
@@ -17,9 +16,8 @@ router.get("/timestamp", LoginController.ensureAuthorized, (_, res) => {
 
 // ============= Rotas ============= //
 
-router.use(loginRoute);
-router.use(userRoute);
-router.use(itemRoute);
-router.use(itemPhotoRouter);
+router.use(donationsRouter);
+router.use(itemTypesRouter);
+router.use(loginRouter);
 
 export default router;

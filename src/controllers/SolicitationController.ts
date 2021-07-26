@@ -20,6 +20,7 @@ class SolicitationController {
 			});
 			return res.status(200).json(allSolicitation);
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}
@@ -34,6 +35,7 @@ class SolicitationController {
 			});
 			return res.status(200).json(allSolicitation);
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}
@@ -48,6 +50,7 @@ class SolicitationController {
 			});
 			return res.status(200).json(allSolicitation);
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}
@@ -62,6 +65,7 @@ class SolicitationController {
 			});
 			return res.status(200).json(allSolicitation);
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}
@@ -77,6 +81,7 @@ class SolicitationController {
 			if (err instanceof UniqueConstraintError)
 				return res.status(400).json({ message: "Esta solicitação já está cadastrada." });
 
+			console.error(err);
 			res.status(500).json(err.message);
 		}
 	}
@@ -101,6 +106,7 @@ class SolicitationController {
 			});
 			return res.status(200).json(updatedSolicitation);
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}
@@ -119,6 +125,7 @@ class SolicitationController {
 			await db.Solicitations.destroy({ where: { idSolicitation: Number(idSolicitation) } });
 			return res.status(200).json({ message: `Item de ID ${idSolicitation} deletado.` });
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json(err.message);
 		}
 	}

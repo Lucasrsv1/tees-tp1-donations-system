@@ -1,1 +1,61 @@
-<p>items-type-management-page works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="d-inline-block m-0">Gerenciamento de Tipos de Item</h4>
+			<button class="btn btn-primary float-end" (click)="add()">
+				<fa-icon [icon]="faPlus" class="me-1"></fa-icon> Adicionar
+			</button>
+		</div>
+
+		<div class="card-body">
+			<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th class="actions text-center">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let itemType of itemTypes">
+						<td>{{ itemType.name || "-" }}</td>
+						<td class="text-center">
+							<button class="btn btn-sm btn-primary me-2" (click)="startEditing(itemType)" title="Editar">
+								<fa-icon [icon]="faPencilAlt"></fa-icon>
+							</button>
+							<button class="btn btn-sm btn-danger ml-2" (click)="delete(itemType)" title="Excluir">
+								<fa-icon [icon]="faTrashAlt"></fa-icon>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- Modal de Gerenciamento -->
+<ng-template #modal>
+	<div class="modal-header">
+		<h4 class="modal-title m-0">
+			{{ editingItemType ? "Editar" : "Adicionar" }} Tipo de Item
+		</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modalRef?.hide()"></button>
+	</div>
+	<div class="modal-body">
+		<div class="form-group">
+			<label for="nomeTipoItem" class="mb-1">Nome:</label>
+			<input [(ngModel)]="nameInput" type="text" class="form-control nome-edicao"
+				id="nomeTipoItem" placeholder="Nome do tipo de item" (keydown.enter)="save()" autofocus
+				[class.is-invalid]="!nameInput || nameInput == editingItemType?.name" [class.is-valid]="nameInput && nameInput != editingItemType?.name">
+
+			<div *ngIf="!nameInput || nameInput == editingItemType?.name" class="invalid-feedback">
+				<div *ngIf="!nameInput">Este campo é obrigatório</div>
+				<div *ngIf="nameInput == editingItemType?.name">Campo não alterado</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary me-auto" (click)="modalRef?.hide()">Cancelar</button>
+		<button type="button" class="btn btn-primary" (click)="save()" [disabled]="!nameInput || nameInput == editingItemType?.name">Salvar</button>
+	</div>
+</ng-template>

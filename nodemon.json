@@ -3,7 +3,8 @@
 	"ignore": [
 		".git",
 		"node_modules/",
-		"dist/"
+		"dist/",
+		"src/donations-system/"
 	],
 	"watch": [
 		"src/"
