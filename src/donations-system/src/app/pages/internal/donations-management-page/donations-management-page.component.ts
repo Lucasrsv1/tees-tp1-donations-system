@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { faCog, faHandsHelping, faPlus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { BlockUI, NgBlockUI } from "ng-block-ui";
 import { finalize } from "rxjs/operators";
@@ -24,6 +25,7 @@ export class DonationsManagementPageComponent implements OnInit {
 	public donations: IDonation[] = [];
 
 	constructor (
+		private router: Router,
 		private alertsService: AlertsService,
 		private donationsManagementService: DonationsManagementService
 	) { }
@@ -48,9 +50,15 @@ export class DonationsManagementPageComponent implements OnInit {
 			);
 	}
 
-	public create (): void { }
+	public create (): void {
+		this.router.navigate(["donation"]);
+	}
 
-	public manage (donation: IDonation): void { }
+	public manage (donation: IDonation): void {
+		this.router.navigate(["donation"], {
+			queryParams: { idDonation: donation.idDonationItem }
+		});
+	}
 
 	public async delete (donation: IDonation): Promise<void> {
 		const confirm = await this.alertsService.confirm("Tem certeza de que deseja excluir esta doação?");

@@ -1,6 +1,6 @@
 import { IItemType } from "./item-type";
 import { IPhoto } from "./photo";
-import { Validation } from "./solicitation";
+import { ISolicitation, Validation } from "./solicitation";
 import { IUser } from "./user";
 
 export interface IDonation {
@@ -16,4 +16,5 @@ export interface IDonation {
 	donator: IUser;
 	photos: IPhoto[];
 	createdAt: Date;
+	solicitations?: ISolicitation[];
 }

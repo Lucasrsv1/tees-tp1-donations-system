@@ -1,14 +1,18 @@
-<div class="card">
+<div class="card mb-2">
 	<div class="row g-0">
 		<div class="col-md-4">
 			<carousel [interval]="8000" class="carousel-dark">
-				<slide *ngFor="let photo of donation.photos" class="text-center">
+				<slide *ngIf="!donation.photos.length" class="text-center p-2">
+					<img src="/assets/no-image.jpg" class="img-fluid rounded-start">
+				</slide>
+
+				<slide *ngFor="let photo of donation.photos" class="text-center p-2">
 					<img [src]="getPhotoURL(photo.link)" class="img-fluid rounded-start">
 				</slide>
 			</carousel>
 		</div>
 		<div class="col-md-8">
-			<div class="card-body mt-4">
+			<div class="card-body mt-2">
 				<h3 class="card-title">{{ donation.itemType.name }}</h3>
 				<p class="card-text">{{ donation.description }}</p>
 				<p class="card-text">Quantidade: {{ donation.quantity }}</p>

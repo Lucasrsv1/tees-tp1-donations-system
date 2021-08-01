@@ -54,6 +54,7 @@
 	},
 	"rules": {
 		"array-type": false,
+		"radix": false,
 		"arrow-parens": false,
 		"interface-name": true,
 		"no-console": false,

@@ -22,11 +22,11 @@ export class DonationsManagementService {
 		return this.http.get<IDonation>(`${environment.apiURL}/v1/donations/${idDonation}`);
 	}
 
-	public create (donation: IDonation): Observable<IDonation> {
+	public create (donation: Partial<IDonation>): Observable<IDonation> {
 		return this.http.post<IDonation>(`${environment.apiURL}/v1/donations`, donation);
 	}
 
-	public update (donation: IDonation, idDonation: number): Observable<IDonation> {
+	public update (donation: Partial<IDonation>, idDonation: number): Observable<IDonation> {
 		return this.http.put<IDonation>(`${environment.apiURL}/v1/donations/${idDonation}`, donation);
 	}
 

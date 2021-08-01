@@ -1,0 +1,79 @@
+<div class="container mt-3 pb-3">
+	<div class="card">
+		<div class="card-header p-3 bg-primary text-white">
+			Informações do item a ser doado:
+		</div>
+
+		<div class="card-body">
+			<form [formGroup]="form" (submit)="save()">
+				<div class="row">
+					<div class="col-sm-8">
+						<mat-form-field class="w-100" [floatLabel]="'always'" appearance="outline">
+							<mat-label>Descrição</mat-label>
+							<input matInput type="text" formControlName="description" placeholder="Descreva o item a ser doado" />
+							<mat-error>Obrigatório</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-4 ps-0">
+						<mat-form-field class="w-100" [floatLabel]="'always'" appearance="outline">
+							<mat-label>Tipo de Item</mat-label>
+							<mat-select formControlName="idItemType" placeholder="Selecione o tipo de item">
+								<mat-option *ngFor="let itemType of itemTypes" [value]="itemType.idItemType">
+									{{ itemType.name }}
+								</mat-option>
+							</mat-select>
+							<mat-error>Obrigatório</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-4">
+						<mat-form-field class="w-100" [floatLabel]="'always'" appearance="outline">
+							<mat-label>Quantidade</mat-label>
+							<input matInput type="number" formControlName="quantity" placeholder="Quantidade doada" />
+							<mat-error>Obrigatório</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-5 ps-0">
+						<mat-form-field class="w-100" [floatLabel]="'always'" appearance="outline">
+							<mat-label>Cidade</mat-label>
+							<input matInput type="text" formControlName="city" placeholder="Cidade onde o item está" />
+							<mat-error>Obrigatório</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-3 ps-0">
+						<mat-form-field class="w-100" [floatLabel]="'always'" appearance="outline">
+							<mat-label>Estado</mat-label>
+							<mat-select formControlName="state" placeholder="Selecione o estado">
+								<mat-option *ngFor="let state of states" [value]="state.id">
+									{{ state.name }}
+								</mat-option>
+							</mat-select>
+							<mat-error>Obrigatório</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<button type="button" class="btn btn-secondary" (click)="cancel()">Voltar</button>
+					</div>
+					<div class="col text-end">
+						<button class="btn btn-primary ms-auto" type="submit" [disabled]="form.invalid">
+							<span *ngIf="idDonation > 0">
+								<fa-icon [icon]="faSave"></fa-icon>
+								Salvar Doação
+							</span>
+							<span *ngIf="!(idDonation > 0)">
+								<fa-icon [icon]="faPlus"></fa-icon>
+								Adicionar
+							</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>

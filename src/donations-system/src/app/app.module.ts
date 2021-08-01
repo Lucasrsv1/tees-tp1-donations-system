@@ -26,8 +26,8 @@ import { LoginPageComponent } from "./pages/external/login-page/login-page.compo
 import { SignUpPageComponent } from "./pages/external/sign-up-page/sign-up-page.component";
 import { HomePageComponent } from "./pages/internal/home-page/home-page.component";
 import { ItemsTypeManagementPageComponent } from "./pages/internal/items-type-management-page/items-type-management-page.component";
-import { RegisterDonationComponent } from "./pages/internal/register-donation-page/register-donation-page.component";
 
+import { DonationPageComponent } from "./pages/internal/donation-page/donation-page.component";
 import { DonationsManagementPageComponent } from "./pages/internal/donations-management-page/donations-management-page.component";
 import { DonationsValidationPageComponent } from "./pages/internal/donations-validation-page/donations-validation-page.component";
 import { RequestInterceptor } from "./services/authentication/request.interceptor";
@@ -39,9 +39,9 @@ import { RequestInterceptor } from "./services/authentication/request.intercepto
 		SignUpPageComponent,
 		ItemsTypeManagementPageComponent,
 		HomePageComponent,
-		RegisterDonationComponent,
 		DonationsValidationPageComponent,
-		DonationsManagementPageComponent
+		DonationsManagementPageComponent,
+		DonationPageComponent
 	],
 	imports: [
 		BrowserModule,

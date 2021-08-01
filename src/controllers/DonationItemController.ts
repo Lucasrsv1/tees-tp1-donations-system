@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { body, ValidationChain } from "express-validator";
+import { body } from "express-validator";
 
 import db from "../database/models";
 import { DonationItems, Validation } from "../database/models/donation_items";
@@ -40,7 +40,9 @@ class DonationItemController {
 	 * Obtém uma doação pela ID
 	 */
 	public static async getDonation (req: Request, res: Response) {
+		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
+
 		try {
 			const donation = await db.DonationItems.findOne({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city", "validation"],
@@ -50,9 +52,23 @@ class DonationItemController {
 				}, {
 					association: "itemType",
 					attributes: ["idItemType", "name"]
+				}, {
+					association: "solicitations",
+					attributes: ["idSolicitation", "idUser", "idDonationItem", "justification", "validation"],
+					include: [{
+						association: "user",
+						attributes: ["name", "email"]
+					}]
 				}],
-				where: { idDonationItem: Number(idDonation) }
+				where: {
+					idUser: user.idUser,
+					idDonationItem: Number(idDonation)
+				}
 			});
+
+			if (!donation)
+				return res.status(404).json({ message: "Doação não encontrada!" });
+
 			return res.status(200).json(donation);
 		} catch (err) {
 			console.error(err);
