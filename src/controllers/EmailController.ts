@@ -30,6 +30,7 @@ class EmailController {
 	*/
 	public static async validateDonationEmail (req:Request, res:Response) {
 		const { idDonation } = req.params;
+		const justification = req.body;
 		let valid = Validation.WAITING;
 
 		try {
@@ -60,7 +61,7 @@ class EmailController {
 				from: "Admin <admin@donationsystem.com",
 				to: user.email,
 				subject: "Resultado criacao de doacao",
-				text: "Sua doacao foi" + valid.toString
+				text: "Sua doacao foi" + valid.toString + ", pelo motivo de:" + justification
 			}
 			transporter.sendMail(message, (error, info) => {
 				if (error) {
@@ -82,6 +83,7 @@ class EmailController {
 	*/
 	public static async validateSolicitationEmail (req:Request, res:Response) {
 		const { idSolicitation } = req.params;
+		const justification = req.body;
 		let valid = Validation.WAITING;
 
 		try {
@@ -112,7 +114,7 @@ class EmailController {
 				from: "Admin <admin@donationsystem.com",
 				to: user.email,
 				subject: "Resultado de sua solicitacao",
-				text: "Sua doacao foi" + valid.toString
+				text: "Sua solicitacao foi" + valid.toString + ", pelo motivo de:" + justification
 			}
 			transporter.sendMail(message, (error, info) => {
 				if (error) {
