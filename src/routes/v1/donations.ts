@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import DonationItemController from "../../controllers/DonationItemController";
+import EmailController from "../../controllers/EmailController";
 import LoginController from "../../controllers/LoginController";
 
 const router = Router();
@@ -16,6 +17,8 @@ router.post("/donations", DonationItemController.createDonationValidations, Dona
 router.put("/donations/:idDonation", DonationItemController.updateDonationValidations, DonationItemController.updateDonation);
 
 router.delete("/donations/:idDonation", LoginController.ensureAuthorized, DonationItemController.deleteDonation);
+
+router.post("/donations/:idDonation/validate", EmailController.validateDonationEmail);
 
 // ============= Photos ============= //
 
@@ -34,5 +37,7 @@ router.patch("/donations/:idDonation/validation", DonationItemController.setVali
 router.get("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.getSolicitations);
 
 router.patch("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.confirmSolicitation);
+
+router.post("/donations/:idDonation/solicitations/:idSolicitation/validate", LoginController.ensureAuthorized, EmailController.validateSolicitationEmail);
 
 export default router;

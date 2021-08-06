@@ -16,6 +16,7 @@
 	"author": "Gabriel Ferreira dos Santos, Julio Cesar Rocha de Oliveira Souza, Lucas Rassilan Vilanova, Victor Le Roy Matos",
 	"license": "ISC",
 	"dependencies": {
+		"@types/nodemailer": "^6.4.4",
 		"console-stamp": "^0.2.9",
 		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",

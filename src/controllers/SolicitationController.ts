@@ -27,11 +27,12 @@ class SolicitationController {
 
 	/* Mostra uma solicitação do usuário a partir de seu id */
 	public static async getSolicitationOfUserById (req: Request, res: Response) {
-		const { idUser, idSolicitation } = req.params; // Fazer validação de usuário
+		const user = res.locals.user as Partial<Users>;
+		const { idSolicitation } = req.params; // Fazer validação de usuário
 		try {
 			const allSolicitation = await db.Solicitations.findAll({
 				attributes: ["idDonationItem", "justification", "validation"],
-				where: { idUser: Number(idUser), idSolicitation: Number(idSolicitation) }
+				where: { idUser: Number(user.idUser), idSolicitation: Number(idSolicitation) }
 			});
 			return res.status(200).json(allSolicitation);
 		} catch (err) {
@@ -72,8 +73,9 @@ class SolicitationController {
 
 	/* Cria uma solicitação para um item especifico */
 	public static async createSolicitation (req: Request, res: Response) {
-		const { idUser, idDonationItem } = req.params; // Fazer validação de usuário
-		const newSolicitation = { ...req.body, idUser: Number(idUser), idDonationItem: Number(idDonationItem) };
+		const user = res.locals.user as Partial<Users>;
+		const { idDonationItem } = req.params;
+		const newSolicitation = { ...req.body, idUser: Number(user.idUser), idDonationItem: Number(idDonationItem) };
 		try {
 			const newSolicitationCreated = (await db.Solicitations.create(newSolicitation)).toJSON() as Partial<Solicitations>;
 			return res.status(200).json(newSolicitationCreated);
@@ -96,13 +98,14 @@ class SolicitationController {
 
 	/* Atualiza uma solicitação para um item especifico */
 	public static async updateSolicitation (req: Request, res: Response) {
-		const { idUser, idSolicitation } = req.params; // Fazer validação de usuário
+		const user = res.locals.user as Partial<Users>;
+		const { idSolicitation } = req.params; // Fazer validação de usuário
 		const newInfo = req.body;
 		try {
-			await db.DonationItems.update(newInfo, { where: { idUser: Number(idUser), idSolicitation: Number(idSolicitation) } });
+			await db.DonationItems.update(newInfo, { where: { idUser: Number(user.idUser), idSolicitation: Number(idSolicitation) } });
 			const updatedSolicitation = await db.Solicitations.findOne({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city"],
-				where: { idUser: Number(idUser), idSolicitation: Number(idSolicitation) }
+				where: { idUser: Number(user.idUser), idSolicitation: Number(idSolicitation) }
 			});
 			return res.status(200).json(updatedSolicitation);
 		} catch (err) {
