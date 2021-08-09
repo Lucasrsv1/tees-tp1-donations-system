@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { faPencilAlt, faPlus, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { DataTableDirective } from "angular-datatables";
 import { BlockUI, NgBlockUI } from "ng-block-ui";
@@ -18,7 +18,7 @@ import { ItemTypesService } from "src/app/services/item-types/item-types.service
 	templateUrl: "./items-type-management-page.component.html",
 	styleUrls: ["./items-type-management-page.component.scss"]
 })
-export class ItemsTypeManagementPageComponent implements OnInit {
+export class ItemsTypeManagementPageComponent implements OnInit, AfterViewInit {
 	@BlockUI()
 	private blockUI!: NgBlockUI;
 

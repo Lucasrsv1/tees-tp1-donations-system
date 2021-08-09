@@ -1,137 +1,113 @@
-import { Request, Response } from "express";
-import * as nodemailer from 'nodemailer';
+import * as nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 import db from "../database/models";
-import { DonationItems, Validation } from "../database/models/donation_items";
-import { Users } from "../database/models/users";
+import { Validation } from "../database/models/donation_items";
+import { Solicitations } from "../database/models/solicitations";
 
 /*
- * Configuracao do email
-*/
-
-
-const config = {
-	host: "smtp.mailtrap.io",
-	port: 2525,
+ * Configuração do email
+ */
+const config: SMTPTransport.Options = {
+	host: "debugmail.io",
+	port: 25,
 	auth: {
-		user: "c9f1f71a5f208a",
-		pass: "ec01747b68e438"
+		user: "lucasrsv1@gmail.com",
+		pass: "bc306380-f8bc-11eb-b0ca-c726edbab6e7"
 	}
 };
 
 const transporter = nodemailer.createTransport(config);
 
 class EmailController {
-
-	constructor () { }
-
 	/*
-	 * Envia email informando sobre aprovacao de um certo item para doacao
-	*/
-	public static async validateDonationEmail (req:Request, res:Response) {
-		const { idDonation } = req.params;
-		const justification = req.body;
-		let valid = Validation.WAITING;
-
+	 * Envia email informando sobre aprovação de um certo item para doação
+	 */
+	public static async validateDonationEmail (idDonationItem: number, validation: Validation, reason: string) {
 		try {
 			const donation = await db.DonationItems.findOne({
-				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city", "validation"],
-				where: {
-					idDonationItem: Number(idDonation)
-				}
+				attributes: ["idDonationItem", "idUser", "description"],
+				where: { idDonationItem },
+				raw: true
 			});
+
 			if (!donation)
-				return res.status(404).json({ message: "Doação não encontrada." });
+				return console.error("Não foi possível enviar o e-mail. Doação não encontrada.");
 
 			const user = await db.Users.findOne({
-				attributes: ["idUser", "name", "email", "type"],
-				where: {
-					idUser: donation.idUser
-				}
+				attributes: ["idUser", "email"],
+				where: { idUser: donation.idUser },
+				raw: true
 			});
-			if (!user)
-				return res.status(403).json({ message: "Usuario nao encontrado." });
 
-			if (donation.validation == Validation.APPROVED)
-				valid = Validation.APPROVED;
-			else
-				valid = Validation.DENIED;
+			if (!user || !user.email)
+				return console.error("Não foi possível enviar o e-mail. Usuário ou email não encontrados.");
 
-			const message = {
-				from: "Admin <admin@donationsystem.com",
+			const valid = validation == Validation.APPROVED;
+			const message: Mail.Options = {
+				from: "Admin <adm@donations.com>",
 				to: user.email,
-				subject: "Resultado criacao de doacao",
-				text: "Sua doacao foi" + valid.toString + ", pelo motivo de:" + justification
-			}
-			transporter.sendMail(message, (error, info) => {
-				if (error) {
-					return res.status(400).send("Falha ao enviar o email.");
-				}
-			});
+				subject: "Resultado criação de doação",
+				text: `Sua doação "${donation.description}" foi ` + (valid ? "aprovada." : `reprovada.\nJustificativa: ${reason}`)
+			};
 
-			return res.status(200);
-
+			await transporter.sendMail(message);
+			console.log("E-mail enviado.");
 		} catch (err) {
-			console.error(err);
-			return res.status(500).json(err.message);
+			console.error("Falha ao enviar o e-mail.", err);
 		}
-
 	}
 
-	/*
-	 * Envia email informando sobre nova solicitacao em um certo item
-	*/
-	public static async validateSolicitationEmail (req:Request, res:Response) {
-		const { idSolicitation } = req.params;
-		const justification = req.body;
-		let valid = Validation.WAITING;
+	/**
+	 * Envia email informando sobre nova solicitação em um certo item
+	 * @param idDonationItem ID da doação
+	 * @param idUser ID do usuário que receberá a doação
+	 */
+	public static async validateSolicitationsEmail (idDonationItem: number, idUser: number) {
+		try {
+			const solicitations = await db.Solicitations.findAll({
+				attributes: ["idSolicitation", "idUser", "idDonationItem"],
+				include: [{
+					attributes: ["email"],
+					association: "user"
+				}, {
+					attributes: ["description"],
+					association: "donation"
+				}],
+				where: { idDonationItem: Number(idDonationItem) },
+				raw: true,
+				nest: true
+			});
+
+			if (!solicitations || !solicitations.length)
+				return console.log("Nenhuma solicitação não encontrada.");
+
+			const promises = [];
+			for (const solicitation of solicitations)
+				promises.push(EmailController.answerSolicitation(solicitation, solicitation.idUser == idUser));
+
+			await Promise.all(promises);
+		} catch (err) {
+			console.error("Falha ao enviar os e-mails.", err);
+		}
+	}
+
+	private static async answerSolicitation (solicitation: Solicitations, valid: boolean) {
+		const message: Mail.Options = {
+			from: "Admin <adm@donations.com>",
+			to: solicitation.user.email,
+			subject: "Resultado de sua solicitação",
+			text: `Sua solicitação da doação "${solicitation.donation.description}" foi ${valid ? "aprovada" : "reprovada"}.`
+		};
 
 		try {
-			const solicitation = await db.Solicitations.findOne({
-				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city", "validation"],
-				where: {
-					idDonationItem: Number(idSolicitation)
-				}
-			});
-			if (!solicitation)
-				return res.status(404).json({ message: "Solicitacao não encontrada." });
-
-			const user = await db.Users.findOne({
-				attributes: ["idUser", "name", "email", "type"],
-				where: {
-					idUser: solicitation.idUser
-				}
-			});
-			if (!user)
-				return res.status(403).json({ message: "Usuario nao encontrado." });
-
-			if (solicitation.validation == Validation.APPROVED)
-				valid = Validation.APPROVED;
-			else
-				valid = Validation.DENIED;
-
-			const message = {
-				from: "Admin <admin@donationsystem.com",
-				to: user.email,
-				subject: "Resultado de sua solicitacao",
-				text: "Sua solicitacao foi" + valid.toString + ", pelo motivo de:" + justification
-			}
-			transporter.sendMail(message, (error, info) => {
-				if (error) {
-					return res.status(400).send("Falha ao enviar o email.");
-				}
-			});
-
-			return res.status(200);
-
+			await transporter.sendMail(message);
+			console.log("E-mail enviado.");
 		} catch (err) {
-			console.error(err);
-			return res.status(500).json(err.message);
+			console.error("Falha ao enviar o e-mail.", err);
 		}
-
 	}
-
 }
-
 
 export default EmailController;

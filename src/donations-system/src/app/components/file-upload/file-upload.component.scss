@@ -1,0 +1,35 @@
+input {
+	display: none;
+}
+
+div {
+	border: 1px dashed #3C58BF;
+	padding: 1.25rem;
+}
+
+span {
+	color: #3C58BF;
+	line-height: 38px;
+	vertical-align: top;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 170px - .5rem);
+	overflow: hidden;
+	display: inline-block;
+}
+
+div.invalid {
+	border: 1px dashed #DC3545;
+
+	span {
+		color: #DC3545;
+	}
+}
+
+div.valid {
+	border: 1px dashed #28a745;
+
+	span {
+		color: #28a745;
+	}
+}

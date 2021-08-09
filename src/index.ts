@@ -8,6 +8,7 @@ consoleStamp(console, { pattern: "yyyy-mm-dd HH:MM:ss.l" });
 
 import cors from "cors";
 import express from "express";
+import fileUpload from "express-fileupload";
 import { resolve } from "path";
 
 import routes from "./routes/routes";
@@ -17,6 +18,7 @@ const app = express();
 
 app.use("/uploads", express.static(resolve(__dirname, "./uploads")));
 
+app.use(fileUpload());
 app.use(express.json());
 app.use(cors({
 	origin: "*",

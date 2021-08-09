@@ -1,0 +1,14 @@
+<div (drop)="onDrop($event)" (dragover)="onDragOver($event)" [class.invalid]="invalid" [class.valid]="!invalid">
+	<label for="file" class="btn mb-0"
+		[class.btn-primary]="!(invalid && file)"
+		[class.btn-danger]="invalid && file">
+		{{ !file ? 'Escolha um' : 'Trocar' }} arquivo
+	</label>
+	<span class="ms-2">{{ file ? file.name : 'ou arraste e solte um aqui.' }}</span>
+
+	<button class="btn btn-danger float-end" *ngIf="file" (click)="removeFile()" title="Excluir">
+		<fa-icon [icon]="faTrashAlt"></fa-icon>
+	</button>
+
+	<input class="file-input" type="file" id="file">
+</div>

@@ -8,7 +8,7 @@ import { environment } from "src/environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class ItemTypesService {
-	constructor (private http: HttpClient) { }
+	constructor (private readonly http: HttpClient) { }
 
 	public list (): Observable<IItemType[]> {
 		return this.http.get<IItemType[]>(`${environment.apiURL}/v1/itemTypes`);

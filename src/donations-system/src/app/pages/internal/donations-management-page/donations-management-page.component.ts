@@ -22,12 +22,12 @@ export class DonationsManagementPageComponent implements OnInit {
 	public faPlus = faPlus;
 	public faTrashAlt = faTrashAlt;
 	public faHandsHelping = faHandsHelping;
-	public donations: IDonation[] = [];
+	public donations: IDonation[] | undefined;
 
 	constructor (
-		private router: Router,
-		private alertsService: AlertsService,
-		private donationsManagementService: DonationsManagementService
+		private readonly router: Router,
+		private readonly alertsService: AlertsService,
+		private readonly donationsManagementService: DonationsManagementService
 	) { }
 
 	public ngOnInit (): void {
@@ -69,7 +69,7 @@ export class DonationsManagementPageComponent implements OnInit {
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
 				_ => {
-					this.donations = this.donations.filter(d => d.idDonationItem !== donation.idDonationItem);
+					this.donations = (this.donations || []).filter(d => d.idDonationItem !== donation.idDonationItem);
 					this.alertsService.show(
 						"Doação Removida",
 						"A doação foi removida com sucesso!",

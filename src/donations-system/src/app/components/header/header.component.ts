@@ -11,7 +11,7 @@ import { AuthenticationService } from "src/app/services/authentication/authentic
 export class HeaderComponent {
 	public faSignOutAlt = faSignOutAlt;
 
-	constructor (private authenticationService: AuthenticationService) { }
+	constructor (private readonly authenticationService: AuthenticationService) { }
 
 	public logout (): void {
 		this.authenticationService.signOut();

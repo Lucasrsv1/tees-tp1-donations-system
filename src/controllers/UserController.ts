@@ -6,8 +6,6 @@ import db from "../database/models";
 import { Users, UserType } from "../database/models/users";
 
 class UserController {
-	constructor () { }
-
 	/**
 	 * Cadastra usuário
 	 */

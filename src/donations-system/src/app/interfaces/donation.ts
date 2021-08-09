@@ -15,6 +15,5 @@ export interface IDonation {
 	itemType: IItemType;
 	donator: IUser;
 	photos: IPhoto[];
-	createdAt: Date;
 	solicitations?: ISolicitation[];
 }

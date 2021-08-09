@@ -10,8 +10,6 @@ const KEY_TOKEN = "U7rLThGJD3BAZg0$d*%6DeKZdChEzPEz";
 const EXPIRATION_TIME = 3 * 24 * 60 * 60;
 
 class LoginController {
-	constructor () { }
-
 	public static ensureAuthorized (req: Request, res: Response, next: NextFunction): void {
 		const token = req.headers["x-access-token"] as string;
 		if (!token) {

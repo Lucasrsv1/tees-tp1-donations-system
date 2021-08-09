@@ -20,11 +20,11 @@ export class DonationsValidationPageComponent implements OnInit {
 
 	public faCheck = faCheck;
 	public faTimes = faTimes;
-	public donations: IDonation[] = [];
+	public donations: IDonation[] | undefined;
 
 	constructor (
-		private alertsService: AlertsService,
-		private donationsManagementService: DonationsManagementService
+		private readonly alertsService: AlertsService,
+		private readonly donationsManagementService: DonationsManagementService
 	) { }
 
 	public ngOnInit (): void {
@@ -48,16 +48,17 @@ export class DonationsValidationPageComponent implements OnInit {
 	}
 
 	public async validate (donation: IDonation, approved: boolean): Promise<void> {
-		// TODO: solicitar justificativa para reprovar.
-
 		const confirm = await this.alertsService.confirm(`Tem certeza de que deseja ${approved ? "aprovar" : "reprovar"} esta doação?`, !approved);
 		if (!confirm) return;
 
+		const reason = approved ? null : await this.alertsService.prompt("Entre com a justificativa para a reprovação:");
+		if (!approved && !reason) return;
+
 		this.blockUI.start();
-		this.donationsManagementService.setValidation(donation.idDonationItem, approved ? Validation.APPROVED : Validation.DENIED)
+		this.donationsManagementService.setValidation(donation.idDonationItem, approved ? Validation.APPROVED : Validation.DENIED, reason as string)
 			.pipe(finalize(() => this.blockUI.stop()))
 			.subscribe(
-				_ => this.donations = this.donations.filter(d => d.idDonationItem !== donation.idDonationItem),
+				_ => this.donations = (this.donations || []).filter(d => d.idDonationItem !== donation.idDonationItem),
 				(error: HttpErrorResponse) => {
 					this.alertsService.httpErrorAlert(
 						"Erro ao Validar Doação",

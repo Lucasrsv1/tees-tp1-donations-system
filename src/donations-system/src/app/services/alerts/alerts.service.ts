@@ -32,6 +32,21 @@ export class AlertsService {
 		});
 	}
 
+	public prompt (title: string): Promise<string | undefined> {
+		return new Promise(resolve => {
+			Swal.fire({
+				icon: "question",
+				title,
+				confirmButtonColor: "#0d6efd",
+				input: "text",
+				showCancelButton: true,
+				cancelButtonText: "Cancelar"
+			}).then((result: SweetAlertResult) => {
+				resolve(result.value);
+			});
+		});
+	}
+
 	public httpErrorAlert (title: string, html: string, error: HttpErrorResponse): void {
 		let errorMessage = error.message;
 		if (error.error && error.error.message)

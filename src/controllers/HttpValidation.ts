@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
 class HttpValidation {
-	constructor () { }
-
 	public static isRequestInvalid (req: Request, res: Response): boolean {
 		const validation = validationResult(req);
 		if (validation.isEmpty())

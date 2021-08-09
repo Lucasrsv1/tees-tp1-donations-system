@@ -1,7 +1,6 @@
 import { Router } from "express";
 
 import DonationItemController from "../../controllers/DonationItemController";
-import EmailController from "../../controllers/EmailController";
 import LoginController from "../../controllers/LoginController";
 
 const router = Router();
@@ -9,6 +8,8 @@ const router = Router();
 // ============= Donations ============= //
 
 router.get("/donations", LoginController.ensureAuthorized, DonationItemController.getAllUserDonations);
+
+router.get("/donations/search", LoginController.ensureAuthorized, DonationItemController.searchDonations);
 
 router.get("/donations/:idDonation", LoginController.ensureAuthorized, DonationItemController.getDonation);
 
@@ -18,13 +19,11 @@ router.put("/donations/:idDonation", DonationItemController.updateDonationValida
 
 router.delete("/donations/:idDonation", LoginController.ensureAuthorized, DonationItemController.deleteDonation);
 
-router.post("/donations/:idDonation/validate", EmailController.validateDonationEmail);
-
 // ============= Photos ============= //
 
-// router.post("/donations/:idDonation/photos", LoginController.ensureAuthorized, DonationItemController.savePhotos);
+router.post("/donations/:idDonation/photos", LoginController.ensureAuthorized, DonationItemController.savePhoto);
 
-router.delete("/donations/:idDonation/photos", LoginController.ensureAuthorized, DonationItemController.deletePhotos);
+router.delete("/donations/:idDonation/photos/:idPhoto", LoginController.ensureAuthorized, DonationItemController.deletePhoto);
 
 // ============= Validation ============= //
 
@@ -36,8 +35,8 @@ router.patch("/donations/:idDonation/validation", DonationItemController.setVali
 
 router.get("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.getSolicitations);
 
-router.patch("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.confirmSolicitation);
+router.post("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.solicit);
 
-router.post("/donations/:idDonation/solicitations/:idSolicitation/validate", LoginController.ensureAuthorized, EmailController.validateSolicitationEmail);
+router.patch("/donations/:idDonation/solicitations", LoginController.ensureAuthorized, DonationItemController.confirmSolicitation);
 
 export default router;

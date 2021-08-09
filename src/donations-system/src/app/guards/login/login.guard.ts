@@ -6,8 +6,8 @@ import { AuthenticationService } from "../../services/authentication/authenticat
 @Injectable({ providedIn: "root" })
 export class LoginGuard implements CanActivate {
 	constructor (
-		private router: Router,
-		private authenticationService: AuthenticationService
+		private readonly router: Router,
+		private readonly authenticationService: AuthenticationService
 	) { }
 
 	public canActivate (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

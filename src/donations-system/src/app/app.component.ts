@@ -8,7 +8,7 @@ import { AuthenticationService } from "./services/authentication/authentication.
 	styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-	constructor (private authenticationService: AuthenticationService) { }
+	constructor (private readonly authenticationService: AuthenticationService) { }
 
 	public get isLoggedIn (): boolean {
 		return this.authenticationService.isLoggedIn();

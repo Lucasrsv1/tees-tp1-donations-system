@@ -1,3 +1,5 @@
+import { IUser } from "./user";
+
 export enum Validation {
 	APPROVED = "APPROVED",
 	DENIED = "DENIED",
@@ -8,6 +10,7 @@ export interface ISolicitation {
 	idSolicitation: number;
 	idUser: number;
 	idDonationItem: number;
-	reason: string;
+	justification: string;
 	validation: Validation;
+	user: IUser;
 }

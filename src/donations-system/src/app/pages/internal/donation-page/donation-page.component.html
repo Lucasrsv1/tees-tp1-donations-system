@@ -76,4 +76,78 @@
 		</div>
 	</div>
 
+	<div class="card mt-3" [hidden]="!(idDonation > 0)">
+		<div class="card-header">
+			<span>Fotos do item a ser doado:</span>
+			<button class="btn btn-primary float-end" (click)="openUploadModal()">
+				<fa-icon [icon]="faPlus"></fa-icon>
+				Adicionar
+			</button>
+		</div>
+
+		<div class="card-body">
+			<div class="d-flex">
+				<div *ngFor="let photo of photos" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 photo p-1">
+					<img [src]="getPhotoURL(photo.link)" class="img-fluid rounded-start">
+					<div class="remove-photo text-center" (click)="removePhoto(photo)">
+						<fa-icon [icon]="faTimes"></fa-icon>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mt-3" [hidden]="!(idDonation > 0)">
+		<div class="card-header">
+			<span>Solicitações de doação:</span>
+		</div>
+
+		<div class="card-body">
+			<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table-striped table-bordered">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Justificativa</th>
+						<th class="actions text-center">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let solicitation of solicitations">
+						<td>{{ solicitation.user.name || "-" }}</td>
+						<td>{{ solicitation.justification }}</td>
+						<td class="text-center">
+							<button class="btn btn-sm btn-primary" (click)="confirmDonation(solicitation)" title="Aprovar Doação">
+								<fa-icon [icon]="faCheck"></fa-icon> Aprovar
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
+
+<!-- Modal de Upload de Fotos -->
+<ng-template #modal>
+	<div class="modal-header">
+		<h4 class="modal-title m-0">Adicionar Foto</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modalRef?.hide()"></button>
+	</div>
+	<form [formGroup]="uploadForm" class="form" (submit)="uploadPhoto()">
+		<div class="modal-body">
+			<div class="form-row">
+				<div class="form-group col-12 w-100">
+					<label class="mb-1">Imagem (png, jpg ou jpeg):</label>
+					<app-file-upload formControlName="image" [invalid]="uploadForm.controls.image.invalid"></app-file-upload>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary me-auto" (click)="modalRef?.hide()">Cancelar</button>
+			<button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid">
+				<fa-icon [icon]="faUpload"></fa-icon>
+				Upload
+			</button>
+		</div>
+	</form>
+</ng-template>

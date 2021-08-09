@@ -7,8 +7,6 @@ import { ItemTypes } from "../database/models/item_types";
 import LoginController from "./LoginController";
 
 class ItemTypeController {
-	constructor () { }
-
 	/**
 	 * Obtém todos os tipos de itens
 	 */

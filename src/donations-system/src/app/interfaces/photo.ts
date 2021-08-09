@@ -1,5 +1,5 @@
 export interface IPhoto {
-	idPhoto: number;
-	idDonation: number;
+	idItemPhoto: number;
+	idDonationItem: number;
 	link: string;
 }

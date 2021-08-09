@@ -1,16 +1,16 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { IDonation } from "src/app/interfaces/donation";
 import { IMessage } from "src/app/interfaces/message";
+import { IPhoto } from "src/app/interfaces/photo";
 import { ISolicitation, Validation } from "src/app/interfaces/solicitation";
-import { IUser } from "src/app/interfaces/user";
 import { environment } from "src/environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class DonationsManagementService {
-	constructor (private http: HttpClient) { }
+	constructor (private readonly http: HttpClient) { }
 
 	// ============= Donations ============= //
 
@@ -36,19 +36,16 @@ export class DonationsManagementService {
 
 	// ============= Photos ============= //
 
-	public uploadPhotos (idDonation: number, photos: File[]): Observable<IMessage> {
+	public uploadPhoto (idDonation: number, photo: File): Observable<IPhoto> {
 		const body = new FormData();
-		for (let i = 0; i < photos.length; i++) {
-			body.append(`file_name[${i}]`, photos[i].name);
-			body.append(`photo[${i}]`, photos[i], photos[i].name);
-		}
+		body.append("file_name", photo.name);
+		body.append("photo", photo, photo.name);
 
-		return this.http.post<IMessage>(`${environment.apiURL}/v1/donations/${idDonation}/photos`, body);
+		return this.http.post<IPhoto>(`${environment.apiURL}/v1/donations/${idDonation}/photos`, body);
 	}
 
-	public removePhotos (idDonation: number, photoIds: number[]): Observable<IMessage> {
-		const params = new HttpParams().append("photoIds", photoIds.join(","));
-		return this.http.delete<IMessage>(`${environment.apiURL}/v1/donations/${idDonation}/photos`, { params });
+	public removePhotos (idDonation: number, photoId: number): Observable<IMessage> {
+		return this.http.delete<IMessage>(`${environment.apiURL}/v1/donations/${idDonation}/photos/${photoId}`);
 	}
 
 	// ============= Validation ============= //
@@ -57,8 +54,8 @@ export class DonationsManagementService {
 		return this.http.get<IDonation[]>(`${environment.apiURL}/v1/donations/pending/validation`);
 	}
 
-	public setValidation (idDonation: number, validation: Validation): Observable<IMessage> {
-		return this.http.patch<IMessage>(`${environment.apiURL}/v1/donations/${idDonation}/validation`, { validation });
+	public setValidation (idDonation: number, validation: Validation, reason: string): Observable<IMessage> {
+		return this.http.patch<IMessage>(`${environment.apiURL}/v1/donations/${idDonation}/validation`, { validation, reason });
 	}
 
 	// ============= Solicitations ============= //
