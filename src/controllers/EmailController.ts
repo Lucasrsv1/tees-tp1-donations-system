@@ -6,25 +6,25 @@ import db from "../database/models";
 import { Validation } from "../database/models/donation_items";
 import { Solicitations } from "../database/models/solicitations";
 
-/*
- * Configuração do email
- */
-const config: SMTPTransport.Options = {
-	host: "debugmail.io",
-	port: 25,
-	auth: {
-		user: "lucasrsv1@gmail.com",
-		pass: "bc306380-f8bc-11eb-b0ca-c726edbab6e7"
-	}
-};
-
-const transporter = nodemailer.createTransport(config);
-
 class EmailController {
+	/*
+	* Configuração do email
+	*/
+	private static config: SMTPTransport.Options = {
+		host: "debugmail.io",
+		port: 25,
+		auth: {
+			user: "lucasrsv1@gmail.com",
+			pass: "bc306380-f8bc-11eb-b0ca-c726edbab6e7"
+		}
+	};
+
+	private static transporter = nodemailer.createTransport(EmailController.config);
+
 	/*
 	 * Envia email informando sobre aprovação de um certo item para doação
 	 */
-	public static async validateDonationEmail (idDonationItem: number, validation: Validation, reason: string) {
+	public static async validateDonationEmail (idDonationItem: number, validation: Validation, reason: string): Promise<void> {
 		try {
 			const donation = await db.DonationItems.findOne({
 				attributes: ["idDonationItem", "idUser", "description"],
@@ -52,7 +52,7 @@ class EmailController {
 				text: `Sua doação "${donation.description}" foi ` + (valid ? "aprovada." : `reprovada.\nJustificativa: ${reason}`)
 			};
 
-			await transporter.sendMail(message);
+			await EmailController.transporter.sendMail(message);
 			console.log("E-mail enviado.");
 		} catch (err) {
 			console.error("Falha ao enviar o e-mail.", err);
@@ -64,7 +64,7 @@ class EmailController {
 	 * @param idDonationItem ID da doação
 	 * @param idUser ID do usuário que receberá a doação
 	 */
-	public static async validateSolicitationsEmail (idDonationItem: number, idUser: number) {
+	public static async validateSolicitationsEmail (idDonationItem: number, idUser: number): Promise<void> {
 		try {
 			const solicitations = await db.Solicitations.findAll({
 				attributes: ["idSolicitation", "idUser", "idDonationItem"],
@@ -93,7 +93,7 @@ class EmailController {
 		}
 	}
 
-	private static async answerSolicitation (solicitation: Solicitations, valid: boolean) {
+	private static async answerSolicitation (solicitation: Solicitations, valid: boolean): Promise<void> {
 		const message: Mail.Options = {
 			from: "Admin <adm@donations.com>",
 			to: solicitation.user.email,
@@ -102,7 +102,7 @@ class EmailController {
 		};
 
 		try {
-			await transporter.sendMail(message);
+			await EmailController.transporter.sendMail(message);
 			console.log("E-mail enviado.");
 		} catch (err) {
 			console.error("Falha ao enviar o e-mail.", err);

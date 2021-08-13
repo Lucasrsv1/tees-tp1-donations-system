@@ -10,26 +10,26 @@ class ItemTypeController {
 	/**
 	 * Obtém todos os tipos de itens
 	 */
-	public static async getAllItemTypes (req: Request, res: Response) {
+	public static async getAllItemTypes (req: Request, res: Response): Promise<void> {
 		try {
 			const allItemTypes = await db.ItemTypes.findAll({
 				attributes: ["idItemType", "name"]
 			});
-			return res.status(200).json(allItemTypes);
+			res.status(200).json(allItemTypes);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	/**
 	 * Cria um novo tipo de item
 	 */
-	public static async createItemType (req: Request, res: Response) {
+	public static async createItemType (req: Request, res: Response): Promise<void> {
 		const newItemType = req.body;
 		try {
 			const newItemTypeCreated = (await db.ItemTypes.create(newItemType)).toJSON() as Partial<ItemTypes>;
-			return res.status(200).json(newItemTypeCreated);
+			res.status(200).json(newItemTypeCreated);
 		} catch (err) {
 			console.error(err);
 			res.status(500).json(err.message);
@@ -46,7 +46,7 @@ class ItemTypeController {
 	/**
 	 * Atualiza o tipo de item
 	 */
-	public static async updateItemType (req: Request, res: Response) {
+	public static async updateItemType (req: Request, res: Response): Promise<void> {
 		const { idItemType } = req.params;
 		const name = req.body.name;
 		try {
@@ -57,28 +57,28 @@ class ItemTypeController {
 				attributes: ["idItemType", "name"],
 				where: { idItemType: Number(idItemType) }
 			});
-			return res.status(200).json(updatedItemType);
+			res.status(200).json(updatedItemType);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	/**
 	 * Deletar um tipo de item
 	 */
-	public static async deleteItemType (req: Request, res: Response) {
+	public static async deleteItemType (req: Request, res: Response): Promise<void> {
 		const { idItemType } = req.params;
 
 		try {
 			const qty = await db.ItemTypes.destroy({ where: { idItemType: Number(idItemType) } });
 			if (qty > 0)
-				return res.status(200).json({ message: `Tipo de item de ID ${idItemType} deletado.` });
-
-			return res.status(404).json({ message: `Tipo de item não deletado.` });
+				res.status(200).json({ message: `Tipo de item de ID ${idItemType} deletado.` });
+			else
+				res.status(404).json({ message: `Tipo de item não deletado.` });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 }

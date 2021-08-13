@@ -20,7 +20,7 @@ class DonationItemController {
 	/**
 	 * Obtém todas as doações do usuário
 	 */
-	public static async getAllUserDonations (req: Request, res: Response) {
+	public static async getAllUserDonations (req: Request, res: Response): Promise<void> {
 		try {
 			const user = res.locals.user as Partial<Users>;
 			const donations = await db.DonationItems.findAll({
@@ -49,17 +49,17 @@ class DonationItemController {
 				},
 				order: [["description", "ASC"]]
 			});
-			return res.status(200).json(donations);
+			res.status(200).json(donations);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	/**
 	 * Procura por doações
 	 */
-	public static async searchDonations (req: Request, res: Response) {
+	public static async searchDonations (req: Request, res: Response): Promise<void> {
 		try {
 			const user = res.locals.user as Partial<Users>;
 			const { search, itemTypes } = req.query;
@@ -106,17 +106,17 @@ class DonationItemController {
 				order: [["createdAt", "DESC"]]
 			});
 
-			return res.status(200).json(donations);
+			res.status(200).json(donations);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	/**
 	 * Obtém uma doação pela ID
 	 */
-	public static async getDonation (req: Request, res: Response) {
+	public static async getDonation (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 
@@ -145,19 +145,19 @@ class DonationItemController {
 			});
 
 			if (!donation)
-				return res.status(404).json({ message: "Doação não encontrada." });
-
-			return res.status(200).json(donation);
+				res.status(404).json({ message: "Doação não encontrada." });
+			else
+				res.status(200).json(donation);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	/**
 	 * Cria uma nova doação de um item
 	 */
-	public static async createDonation (req: Request, res: Response) {
+	public static async createDonation (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const newDonation = { ...req.body, idUser: user.idUser };
 
@@ -166,7 +166,7 @@ class DonationItemController {
 
 		try {
 			const newDonationItemCreated = (await db.DonationItems.create(newDonation)).toJSON() as Partial<DonationItems>;
-			return res.status(200).json(newDonationItemCreated);
+			res.status(200).json(newDonationItemCreated);
 		} catch (err) {
 			console.error(err);
 			res.status(500).json(err.message);
@@ -187,7 +187,7 @@ class DonationItemController {
 	/**
 	 * Atualiza informações de um item para doação
 	 */
-	public static async updateDonation (req: Request, res: Response) {
+	public static async updateDonation (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 		const newInfo = req.body;
@@ -218,10 +218,10 @@ class DonationItemController {
 					idDonationItem: Number(idDonation)
 				}
 			});
-			return res.status(200).json(updatedDonationItem);
+			res.status(200).json(updatedDonationItem);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
@@ -239,7 +239,7 @@ class DonationItemController {
 	/**
 	 * Deleta uma doação
 	 */
-	public static async deleteDonation (req: Request, res: Response) {
+	public static async deleteDonation (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 
@@ -252,18 +252,18 @@ class DonationItemController {
 			});
 
 			if (qty > 0)
-				return res.status(200).json({ message: `Doação de ID ${idDonation} deletada.` });
-
-			return res.status(404).json({ message: "Doação não encontrada." });
+				res.status(200).json({ message: `Doação de ID ${idDonation} deletada.` });
+			else
+				res.status(404).json({ message: "Doação não encontrada." });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	// ============= Photos ============= //
 
-	public static async savePhoto (req: Request, res: Response) {
+	public static async savePhoto (req: Request, res: Response): Promise<void> {
 		const { idDonation } = req.params;
 		if (req.files && req.files.photo) {
 			const ext = req.body.file_name.substring(req.body.file_name.lastIndexOf("."));
@@ -285,7 +285,7 @@ class DonationItemController {
 		}
 	}
 
-	public static async deletePhoto (req: Request, res: Response) {
+	public static async deletePhoto (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation, idPhoto } = req.params;
 
@@ -304,8 +304,10 @@ class DonationItemController {
 				where: { idItemPhoto: Number(idPhoto) }
 			});
 
-			if (!photo)
-				return res.status(404).json({ message: "Foto não encontrada." });
+			if (!photo) {
+				res.status(404).json({ message: "Foto não encontrada." });
+				return;
+			}
 
 			fs.renameSync(
 				path.resolve(__dirname, "..", "uploads", photo.link),
@@ -313,16 +315,16 @@ class DonationItemController {
 			);
 
 			await photo.destroy();
-			return res.status(200).json({ message: "Fotos deletada." });
+			res.status(200).json({ message: "Fotos deletada." });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
 	// ============= Validation ============= //
 
-	public static async getPendingValidation (req: Request, res: Response) {
+	public static async getPendingValidation (req: Request, res: Response): Promise<void> {
 		try {
 			const donations = await db.DonationItems.findAll({
 				attributes: ["idDonationItem", "idUser", "idItemType", "description", "quantity", "state", "city", "validation"],
@@ -336,14 +338,14 @@ class DonationItemController {
 				}],
 				where: { validation: Validation.WAITING }
 			});
-			return res.status(200).json(donations);
+			res.status(200).json(donations);
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
-	public static async setValidation (req: Request, res: Response) {
+	public static async setValidation (req: Request, res: Response): Promise<void> {
 		const { idDonation } = req.params;
 		const { validation, reason } = req.body;
 
@@ -353,10 +355,10 @@ class DonationItemController {
 			});
 
 			await EmailController.validateDonationEmail(Number(idDonation), validation, reason);
-			return res.status(200).json({ message: "Validação da doação atualizada." });
+			res.status(200).json({ message: "Validação da doação atualizada." });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
@@ -370,7 +372,7 @@ class DonationItemController {
 
 	// ============= Solicitations ============= //
 
-	public static async getSolicitations (req: Request, res: Response) {
+	public static async getSolicitations (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 
@@ -392,16 +394,16 @@ class DonationItemController {
 			});
 
 			if (donation)
-				return res.status(200).json(donation.solicitations || []);
-
-			return res.status(404).json({ message: "Doação não encontrada." });
+				res.status(200).json(donation.solicitations || []);
+			else
+				res.status(404).json({ message: "Doação não encontrada." });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 
-	public static async solicit (req: Request, res: Response) {
+	public static async solicit (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 		const { justification } = req.body;
@@ -413,14 +415,14 @@ class DonationItemController {
 				justification
 			})).toJSON() as Partial<Solicitations>;
 
-			return res.status(200).json(newSolicitation);
+			res.status(200).json(newSolicitation);
 		} catch (err) {
 			console.error(err);
 			res.status(500).json(err.message);
 		}
 	}
 
-	public static async confirmSolicitation (req: Request, res: Response) {
+	public static async confirmSolicitation (req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as Partial<Users>;
 		const { idDonation } = req.params;
 		const { idUser } = req.body;
@@ -434,8 +436,10 @@ class DonationItemController {
 				}
 			});
 
-			if (!donation)
-				return res.status(404).json({ message: "Doação não encontrada." });
+			if (!donation) {
+				res.status(404).json({ message: "Doação não encontrada." });
+				return;
+			}
 
 			await db.Solicitations.update({ validation: Validation.DENIED }, {
 				where: {
@@ -452,10 +456,10 @@ class DonationItemController {
 			});
 
 			await EmailController.validateSolicitationsEmail(Number(idDonation), idUser);
-			return res.status(200).json({ message: "Doação confirmada." });
+			res.status(200).json({ message: "Doação confirmada." });
 		} catch (err) {
 			console.error(err);
-			return res.status(500).json(err.message);
+			res.status(500).json(err.message);
 		}
 	}
 }

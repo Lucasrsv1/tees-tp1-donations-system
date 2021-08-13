@@ -9,15 +9,17 @@ class UserController {
 	/**
 	 * Cadastra usuário
 	 */
-	public static async createUser (req: Request, res: Response) {
+	public static async createUser (req: Request, res: Response): Promise<void> {
 		const newUser = req.body;
 		try {
 			const newUserCreated = (await db.Users.create(newUser)).toJSON() as Partial<Users>;
 			delete newUserCreated.password;
-			return res.status(200).json(newUserCreated);
+			res.status(200).json(newUserCreated);
 		} catch (err) {
-			if (err instanceof UniqueConstraintError)
-				return res.status(400).json({ message: "Este e-mail já está cadastrado." });
+			if (err instanceof UniqueConstraintError) {
+				res.status(400).json({ message: "Este e-mail já está cadastrado." });
+				return;
+			}
 
 			console.error(err);
 			res.status(500).json(err.message);

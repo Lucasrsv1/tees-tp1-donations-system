@@ -44,7 +44,7 @@ class LoginController {
 		next(null);
 	}
 
-	public static async login (req: Request, res: Response): Promise<void | any> {
+	public static async login (req: Request, res: Response): Promise<void> {
 		if (HttpValidation.isRequestInvalid(req, res)) return;
 
 		try {
@@ -56,8 +56,10 @@ class LoginController {
 				}
 			});
 
-			if (!user)
-				return res.status(403).json({ message: "E-mail ou senha incorretos." });
+			if (!user) {
+				res.status(403).json({ message: "E-mail ou senha incorretos." });
+				return;
+			}
 
 			const plainUser = user.toJSON() as Partial<Users>;
 			const token = sign(plainUser, KEY_TOKEN, { expiresIn: EXPIRATION_TIME });
